@@ -54,6 +54,7 @@ create table if not exists Ratings(
     ratingStart tinyint,
     ratingTitle nvarchar(255),
     ratingContent text,
+    ratingDate datetime,
     constraint primary key(itemId,userId),
     constraint fk_Ratings_Items foreign key(itemId) references Items(itemId),
     constraint fk_Ratings_Users foreign key(userId) references Users(userId)
