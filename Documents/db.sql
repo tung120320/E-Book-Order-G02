@@ -1,5 +1,5 @@
-drop database EBooksStore;
-create database EBooksStore;
+drop database if exists EBooksStore;
+create database if not exists EBooksStore;
 use EBooksStore;
 create table if not exists Users(
 	userId int primary key auto_increment,
@@ -11,11 +11,19 @@ create table if not exists Users(
     userBalance decimal(10.2) not null,
     userLevel int(1) not null
 );
+create table if not exists Companys(
+	companyId int primary key auto_increment,
+    companyName nvarchar(100) not null,
+    companyAdress text not null,
+    companyPhone int not null
+);
 create table if not exists Orders(
 	orderId int primary key auto_increment,
     userId int not null,
     orderDate datetime not null,
     OrderPaiddate datetime,
+    companyId int not null,
+    constraint fk_Orders_Companys foreign key(companyId) references Companys(companyId),
     constraint fk_Orders_Users foreign key(userId) references Users(userId)
 );
 create table if not exists Items(
@@ -38,10 +46,4 @@ create table if not exists OrderDetails(
     OrderDetailsCount int not null,
     constraint fk_OrderDetails_Orders foreign key(orderId) references Orders(orderId),
     constraint fk_OrderDetails_Items foreign key (itemId) references Items(itemId)
-);
-create table if not exists Companys(
-	companyId int primary key auto_increment,
-    companyName nvarchar(100) not null,
-    companyAdress text not null,
-    companyPhone int not null
 );
