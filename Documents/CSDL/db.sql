@@ -11,19 +11,11 @@ create table if not exists Users(
     userBalance decimal(10.2) not null,
     userLevel int(1) not null
 );
-create table if not exists Companies(
-	companyId int primary key auto_increment,
-    companyName nvarchar(100) not null,
-    companyAdress nvarchar(255) not null,
-    companyPhone varchar(20)  not null
-);
 create table if not exists Orders(
 	orderId int primary key auto_increment,
     userId int not null,
     orderDate datetime not null,
     OrderPaiddate datetime,
-    companyId int not null,
-    constraint fk_Orders_Companies foreign key(companyId) references Companies(companyId),
     constraint fk_Orders_Users foreign key(userId) references Users(userId)
 );
 create table if not exists Items(
@@ -59,3 +51,4 @@ create table if not exists Ratings(
     constraint fk_Ratings_Items foreign key(itemId) references Items(itemId),
     constraint fk_Ratings_Users foreign key(userId) references Users(userId)
     );
+   
