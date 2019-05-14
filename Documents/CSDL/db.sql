@@ -8,9 +8,10 @@ create table if not exists Users(
     nameUser nvarchar(50) not null,
     userEmail varchar(50) not null,
     userIdCardNo varchar(12) not null,
-    userBalance decimal(10.2) not null,
-    userLevel int(1) not null
+    userBalance decimal(10.2) not null
 );
+insert into Users values ('1','tung','thanh','tung','tung@gmail.com','123456789','10.000');
+select * from Users;
 create table if not exists Orders(
 	orderId int primary key auto_increment,
     userId int not null,
@@ -51,4 +52,5 @@ create table if not exists Ratings(
     constraint fk_Ratings_Items foreign key(itemId) references Items(itemId),
     constraint fk_Ratings_Users foreign key(userId) references Users(userId)
     );
+    
    

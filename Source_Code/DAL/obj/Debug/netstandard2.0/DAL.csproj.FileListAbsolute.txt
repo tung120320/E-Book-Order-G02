@@ -10,3 +10,15 @@ C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\DAL\obj
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\DAL\obj\Debug\netstandard2.0\DAL.dll
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\DAL\obj\Debug\netstandard2.0\DAL.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\bin\Debug\netstandard2.0\DAL.deps.json
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\bin\Debug\netstandard2.0\Persistence.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\bin\Debug\netstandard2.0\Persistence.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.csprojAssemblyReference.cache
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfoInputs.cache
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.AssemblyInfo.cs
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.csproj.CopyComplete
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\DAL\obj\Debug\netstandard2.0\DAL.pdb

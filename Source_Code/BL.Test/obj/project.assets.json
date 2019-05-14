@@ -5859,11 +5859,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source Code\\BL.Test\\BL.Test.csproj",
+      "projectUniqueName": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source_Code\\BL.Test\\BL.Test.csproj",
       "projectName": "BL.Test",
-      "projectPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source Code\\BL.Test\\BL.Test.csproj",
+      "projectPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source_Code\\BL.Test\\BL.Test.csproj",
       "packagesPath": "C:\\Users\\tung1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source Code\\BL.Test\\obj\\",
+      "outputPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source_Code\\BL.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

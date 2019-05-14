@@ -5859,11 +5859,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source Code\\DAL.Test\\DAL.Test.csproj",
+      "projectUniqueName": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source_Code\\DAL.Test\\DAL.Test.csproj",
       "projectName": "DAL.Test",
-      "projectPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source Code\\DAL.Test\\DAL.Test.csproj",
+      "projectPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source_Code\\DAL.Test\\DAL.Test.csproj",
       "packagesPath": "C:\\Users\\tung1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source Code\\DAL.Test\\obj\\",
+      "outputPath": "C:\\Users\\tung1\\OneDrive\\Desktop\\Project-G02\\E-Book-Order-G02\\Source_Code\\DAL.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

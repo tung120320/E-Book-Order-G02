@@ -12,3 +12,17 @@ C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\BL\obj\
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\BL\obj\Debug\netstandard2.0\BL.csproj.CopyComplete
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\BL\obj\Debug\netstandard2.0\BL.dll
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source Code\BL\obj\Debug\netstandard2.0\BL.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\BL.deps.json
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\BL.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\BL.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\Persistence.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\bin\Debug\netstandard2.0\Persistence.pdb
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.csprojAssemblyReference.cache
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.csproj.CoreCompileInputs.cache
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.AssemblyInfoInputs.cache
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.AssemblyInfo.cs
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.csproj.CopyComplete
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.dll
+C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\BL\obj\Debug\netstandard2.0\BL.pdb
