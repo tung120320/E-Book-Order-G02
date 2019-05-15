@@ -1,1 +1,1 @@
-server=localhost;user id=root;password=thanhtung1203;port=3306;database=ebooksstore;SslMode=None
+server=localhost;user id=root;password=thanhtung1203;port=3306;database=ebooksstore;SslMode=Noneabc
