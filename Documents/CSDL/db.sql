@@ -3,15 +3,17 @@ create database if not exists EBooksStore;
 use EBooksStore;
 create table if not exists Users(
 	userId int primary key auto_increment,
-    userName varchar(50) not null,
+    userAccount varchar(50) not null,
     userPassword varchar(50) not null,
-    nameUser nvarchar(50) not null,
+    userName nvarchar(50) not null,
     userEmail varchar(50) not null,
     userIdCardNo varchar(12) not null,
     userBalance decimal(10.2) not null
 );
-insert into Users values ('1','tung','thanh','tung','tung@gmail.com','123456789','10.000');
-select * from Users;
+insert into Users values ('1','tung','thanh','tung','tung@gmail.com','123456789','10.000'),
+('2','lan','moc','tung','lan@gmail.com','987654321','10.000');
+select * from Users where userAccount = 'tung' and userPassword = 'thanh';
+
 create table if not exists Orders(
 	orderId int primary key auto_increment,
     userId int not null,
