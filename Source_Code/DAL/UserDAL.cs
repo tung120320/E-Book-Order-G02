@@ -43,7 +43,6 @@ namespace DAL
             DbHelper.CloseConnection();
             return u;
         }
-
         private static User GetUser(MySqlDataReader reader)
         {
             User user = new User();
