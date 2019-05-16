@@ -5,9 +5,6 @@ namespace Persistence.MODEL
     public class User
     {
         public User() {}
-
-      
-
         public int UserId {get;set;}
         public string UserAccount {get;set;}
         public string UserPassword{get;set;}

@@ -7,10 +7,12 @@ namespace DAL
 
     public class DbHelper
     {
-        private static MySqlConnection connection;
-        
+
+
+
         public static MySqlConnection OpenConnection()
         {
+
             try
             {
                 string connectionString;
@@ -31,32 +33,23 @@ namespace DAL
             }
 
         }
+
         public static MySqlConnection OpenConnection(string connectionString)
         {
-                
+
             try
             {
-                connection = new MySqlConnection { ConnectionString = connectionString };
+                MySqlConnection connection = new MySqlConnection { ConnectionString = connectionString };
+
+                return connection;
             }
             catch (System.Exception)
             {
                 return null;
             }
-            connection.Open();
 
-            return connection;
         }
-        public static void CloseConnection()
-        {
-            if (connection != null)
-            {
-                connection.Close();
-            }
-        }
-        public static MySqlDataReader ExecuteQuery(string query)
-        {
-            MySqlCommand command = new MySqlCommand(query, connection);
-            return command.ExecuteReader();
-        }
+
+
     }
 }

@@ -7,10 +7,12 @@ namespace DAL
 
     public class UserDAL
     {
+        private MySqlConnection connection;
+        private MySqlDataReader reader;
+        private string query;
         public UserDAL()
         {
-
-            DbHelper.OpenConnection();
+            connection = DbHelper.OpenConnection();
         }
         public User Login(string username, string password)
         {
@@ -19,7 +21,6 @@ namespace DAL
             {
                 return null;
             }
-
             Regex regex = new Regex("[a-zA-Z0-9_]");
             MatchCollection matchCollectionUserName = regex.Matches(username);
             MatchCollection matchCollectionPassword = regex.Matches(password);
@@ -27,21 +28,35 @@ namespace DAL
             {
                 return null;
             }
-            User user = GetUserInfo(username,password);
+
+            if (connection == null)
+            {
+                connection = DbHelper.OpenConnection();
+            }
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+
+            User user = GetAccountUser(username, password);
             return user;
 
         }
-        public User GetUserInfo(string username,string password)
+        public User GetAccountUser(string username, string password)
         {
-            string query = $@"select * from Users where userAccount = '{username}' and userPassword = '{password}'";
-            MySqlDataReader reader = DbHelper.ExecuteQuery(query);
-            User u = null;
-            if (reader.Read())
+            query = $@"select * from Users where userAccount = '{username}' and userPassword = '{password}'";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            User user = null;
+            using (reader = command.ExecuteReader())
             {
-                u = GetUser(reader);
+                if (reader.Read())
+                {
+                    user = GetUser(reader);
+                }
             }
-            DbHelper.CloseConnection();
-            return u;
+
+            connection.Close();
+            return user;
         }
         private static User GetUser(MySqlDataReader reader)
         {

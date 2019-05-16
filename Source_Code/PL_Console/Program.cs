@@ -7,14 +7,32 @@ namespace PL_Console
     {
         static void Main(string[] args)
         {
-            // UserBL userBL =new UserBL();
-            // User user = userBL.GetUserInfo();
-            // Console.WriteLine("id: {0}",user.userId);
-            // Console.WriteLine("name: {0}",user.userAccount);
-            // Console.WriteLine("name: {0}",user.userEmail);
-            // Console.WriteLine("name: {0}",user.userBalance);
-            // Console.WriteLine("name: {0}",user.userPassword);
-            // Console.WriteLine("name: {0}",user.nameUser);
+            UserBL uBL = new UserBL();
+            User user = null;
+            Console.WriteLine("Nhập tài khoản");
+            string accountName = Console.ReadLine();
+            Console.WriteLine("Nhập mật khẩu");
+            string password = Console.ReadLine();
+            try
+            {
+                user = uBL.Login(accountName, password);
+            }
+            catch (System.Exception e)
+            {
+
+               Console.WriteLine(e);
+            }
+          
+
+            if (user == null)
+            {
+                Console.WriteLine("Sai tai khoan hoac mac khau");
+            }
+            else
+            {
+                Console.WriteLine("Dang nhap thanh cong");
+            }
+
         }
     }
 }
