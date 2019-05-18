@@ -12,7 +12,7 @@ create table if not exists Users(
 );
 insert into Users(userAccount,userPassword,userName,userEmail,userIdCardNo,userBalance)
 values 
-('abc','123','abc','abc@gmail.com','4389768587','1'),
+('tung','thanh','abc','abc@gmail.com','4389768587','1'),
 ('ghi','452','ghi','ghi@gmail.com','465785762','0'),
 ('mnp','845','nga','nga@gmail.com','439540524','0'),
 ('hsadfg','2047238','dfg','dfg@gmail.com','843755762','0'),
@@ -40,9 +40,7 @@ create table if not exists Items(
 );
 insert into Items(itemName,itemPrice,itemAuthor,itemCategory,itemDescription,itemISBN,itemPublished,itemPublisher,itemLanguage,itemPages)
 values
-(' Learning Bootstrap 4 by Building Projects','700.000','Eduonix Learning Solutions','Bootstrap','Bootstrap, the world`s most popular frontend framework, is an open source toolkit for building web applications with HTML, CSS, and JavaScript.
-Learning Bootstrap 4 by Building Projects covers the essentials of Bootstrap 4 along with best practices. The book begins by introducing you to the latest features of Bootstrap 4. You will learn different elements and components of Bootstrap, such as the strict grid system, Sass, which replaced Less, flexbox, Font Awesome, and cards. As you make your way through the chapters, you will use a template that will help you to build different kinds of real-world websites, such as a social media website, a company landing page, a media hosting website, and a profile page, with ease.
-By the end of this book, you will have built websites that are visually appealing, responsive, and robust.','1789343259','2018-04-03','Packt Publishing','English','218'),
+(' Learning Bootstrap 4 by Building Projects','700.000','Eduonix Learning Solutions','Bootstrap','Bootstrap, the world`s most popular frontend framework, is an open By the end of this book, you will have built websites that are visually appealing, responsive, the open By the end of this book, you will have built websites that are visually appealing, responsive, the open By the end of this book, you will have built websites that are visually appealing, responsive, the open By the end of this book, you will have built websites that are visually appealing, responsive, the open By the end of this book, you will have built websites that are visually appealing, responsive, the open By the end of this book, you will have built websites that are visually appealing, responsive, the open By the end of this book, you will have built websites that are visually appealing, responsive, the world`s most popular frontend framework, is an open By the end of this book, you will have built websites that are visually appealing, responsive,appealing, responsive, and robust.','1789343259','2018-04-03','Packt Publishing','English','218'),
 (' Machine Learning and AI for Healthcare','649.000','Arjun Panesar','Big Data','Explore the theory and practical applications of artificial intelligence (AI) and machine learning in healthcare. This book offers a guided tour of machine learning algorithms, architecture design, and applications of learning in healthcare and big data challenges.
 
 You`ll discover the ethical implications of healthcare data analytics and the future of AI in population and patient health optimization. You`ll also create a machine learning model, evaluate performance and operationalize its outcomes within your organization. 
@@ -111,4 +109,6 @@ create table if not exists Ratings(
     constraint fk_Ratings_Users foreign key(userId) references Users(userId)
     );
     select * from users;
+    select * from items;
+    
    

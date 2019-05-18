@@ -13,6 +13,7 @@ namespace DAL
         public UserDAL()
         {
             connection = DbHelper.OpenConnection();
+
         }
         public User Login(string username, string password)
         {
@@ -33,20 +34,24 @@ namespace DAL
             {
                 connection = DbHelper.OpenConnection();
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
+            try
             {
-                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+            }
+            catch (System.Exception)
+            {
+                return null;
+
             }
 
-            User user = GetAccountUser(username, password);
-            return user;
-
-        }
-        public User GetAccountUser(string username, string password)
-        {
-            query = $@"select * from Users where userAccount = '{username}' and userPassword = '{password}'";
-            MySqlCommand command = new MySqlCommand(query, connection);
             User user = null;
+            query = $@"select * from Users where userAccount = '{username}' and userPassword = '{password}'";
+
+            MySqlCommand command = new MySqlCommand(query, connection);
+
             using (reader = command.ExecuteReader())
             {
                 if (reader.Read())
@@ -58,11 +63,15 @@ namespace DAL
             connection.Close();
             return user;
         }
-        private static User GetUser(MySqlDataReader reader)
+        private User GetUser(MySqlDataReader reader)
         {
             User user = new User();
             user.UserAccount = reader.GetString("userAccount");
             user.UserPassword = reader.GetString("userPassword");
+            user.Username = reader.GetString("username");
+            user.UserEmail = reader.GetString("userEmail");
+            user.UserIdCardNo = reader.GetString("userIdCardNo");
+            user.UserBalance = reader.GetDouble("userBalance");
             return user;
         }
 

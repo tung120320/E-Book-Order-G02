@@ -7,9 +7,6 @@ namespace DAL
 
     public class DbHelper
     {
-
-
-
         public static MySqlConnection OpenConnection()
         {
 
@@ -40,7 +37,7 @@ namespace DAL
             try
             {
                 MySqlConnection connection = new MySqlConnection { ConnectionString = connectionString };
-
+                connection.Open();
                 return connection;
             }
             catch (System.Exception)
