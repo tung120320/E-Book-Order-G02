@@ -16,3 +16,12 @@ C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\Persist
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.AssemblyInfo.cs
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.dll
 C:\Users\tung1\OneDrive\Desktop\Project-G02\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.pdb
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\bin\Debug\netstandard2.0\Persistence.deps.json
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\bin\Debug\netstandard2.0\Persistence.dll
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\bin\Debug\netstandard2.0\Persistence.pdb
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.csprojAssemblyReference.cache
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.AssemblyInfoInputs.cache
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.AssemblyInfo.cs
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.dll
+C:\Users\ADMIN\Desktop\E-Book-Order-G02\Source_Code\Persistence\obj\Debug\netstandard2.0\Persistence.pdb

@@ -101,7 +101,7 @@ namespace PL_Console
         {
             Console.Clear();
             short idItem = 0;
-            var table = new ConsoleTable("id", "ten", "gia", "tac gia", "category");
+            var table = new ConsoleTable("ID", "Tên sách", "Giá", "Tác giả", "Danh mục");
             // int countItem = 0;
             
             foreach (Item item in items)
