@@ -100,8 +100,10 @@ namespace PL_Console
 
         {
             Console.Clear();
+
             short idItem = -1;
             var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
+
             
             foreach (Item item in items)
             {
