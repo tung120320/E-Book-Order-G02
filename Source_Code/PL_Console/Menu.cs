@@ -12,6 +12,7 @@ namespace PL_Console
         {
             while (true)
             {
+               
                 string[] choice = { "Đăng nhập", "Thoát" };
                 // short choose = Mainmenu("EBook Store", choice);
                 short choose = Utility.MenuTemplate("EBook Store", choice);
@@ -115,9 +116,6 @@ namespace PL_Console
 
 
         }
-
-       
-
         public string Password()
         {
             StringBuilder sb = new StringBuilder();

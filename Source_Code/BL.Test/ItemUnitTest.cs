@@ -6,7 +6,7 @@ namespace BL.Test
 {
     public class ItemUnitTest
     {
-        private itemBl itemBl = new itemBl();
+        private ItemBl itemBl = new ItemBl();
     
        
        [Fact]

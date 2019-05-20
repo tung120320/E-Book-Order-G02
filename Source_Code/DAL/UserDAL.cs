@@ -66,6 +66,7 @@ namespace DAL
         private User GetUser(MySqlDataReader reader)
         {
             User user = new User();
+            user.UserId = reader.GetInt32("userId");
             user.UserAccount = reader.GetString("userAccount");
             user.UserPassword = reader.GetString("userPassword");
             user.Username = reader.GetString("username");

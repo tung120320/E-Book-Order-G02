@@ -11,18 +11,15 @@ namespace DAL.Test
         {
             Assert.NotNull(itemDal.GetListsItems());
         }
-        
         [Fact]
         public void GetAnItem()
         {
             Assert.NotNull(itemDal.GetAnItem(1));
-        }
-      
+        }  
         [Fact]
         public void GetAnItem1()
         {
             Assert.Null(itemDal.GetAnItem(0));
         }
-      
     }
 }

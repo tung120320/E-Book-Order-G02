@@ -28,7 +28,7 @@ namespace PL_Console
             Console.WriteLine(row1);
             try
             {
-                Console.Write("#Select: ");
+                Console.Write("#Chọn: ");
                 choose = Int16.Parse(Console.ReadLine());
             }
             catch (System.Exception)
@@ -100,27 +100,25 @@ namespace PL_Console
 
         {
             Console.Clear();
-            short idItem = 0;
-            var table = new ConsoleTable("id", "ten", "gia", "tac gia", "category");
-            // int countItem = 0;
+            short idItem = -1;
+            var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
             
             foreach (Item item in items)
             {
                 table.AddRow(item.ItemId, item.ItemName, item.ItemPrice, item.ItemAuthor, item.ItemCategory);
-                // countItem ++;
 
             }
             table.Write();
             try
             {
-                Console.Write("Chọn id sản phẩm muốn mua: ");
+                Console.Write("Chọn id sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
                 idItem = Int16.Parse(Console.ReadLine());
             }
             catch (System.Exception)
             {
 
             }
-            if (idItem <= 0 || idItem > items.Count)
+            if (idItem < 0 || idItem > items.Count)
             {
                 do
                 {
@@ -133,7 +131,7 @@ namespace PL_Console
                     {
                         continue;
                     }
-                } while (idItem <= 0 || idItem > items.Count);
+                } while (idItem < 0 || idItem > items.Count);
             }
             return idItem;
            

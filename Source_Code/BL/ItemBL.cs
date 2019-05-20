@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 namespace BL
 {
-    public class itemBl
+    public class ItemBl
     {
         private ItemDAL itemDAL = new ItemDAL();
         public List<Item> GetListsItems()
