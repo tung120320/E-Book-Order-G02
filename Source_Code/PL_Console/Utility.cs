@@ -77,7 +77,6 @@ namespace PL_Console
 
         {
             Console.Clear();
-
             short idItem = -1;
             var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
 
@@ -88,6 +87,7 @@ namespace PL_Console
 
             }
             table.Write();
+         
             try
             {
                 Console.Write("Chọn mã sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
@@ -115,6 +115,24 @@ namespace PL_Console
             return idItem;
 
         }
+        //   public static void showListItems(string title, string[] menuItems, List<Item> items)
+
+        // {
+        //     Console.Clear();
+            
+        //     var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
+
+
+        //     foreach (Item item in items)
+        //     {
+        //         table.AddRow(item.ItemId, item.ItemName, item.ItemPrice, item.ItemAuthor, item.ItemCategory);
+
+        //     }
+        //     table.Write();
+         
+         
+
+        // }
         public static string OnlyYN(string printcl)
         {
             string choice;

@@ -38,6 +38,31 @@ namespace DAL
             connection.Close();
             return items;
         }
+        public List<Item> GetListsItems(int numberPage)
+        {
+            if (connection == null)
+            {
+                connection = DbHelper.OpenConnection();
+            }
+            if (connection.State == System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
+            int page = numberPage + 2;
+            query = $@"select * from items where itemId between {numberPage + 1} and {page};";
+            MySqlCommand command = new MySqlCommand(query, connection);
+            List<Item> items = null;
+            using (reader = command.ExecuteReader())
+            {
+                items = new List<Item>();
+                while (reader.Read())
+                {
+                    items.Add(GetItem(reader));
+                }
+            }
+            connection.Close();
+            return items;
+        }
         public Item GetAnItem(int? itemId)
         {
             if (itemId == null)

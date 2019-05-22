@@ -61,6 +61,7 @@ create table if not exists OrderDetails(
     constraint fk_OrderDetails_Items foreign key (itemId) references Items(itemId)
 );
 select orderId from orders where orderUser = 1 order by orderid desc limit 1;
+select * from orders ;
 select * from orders;
 select * from users;
 select * from orderdetails;

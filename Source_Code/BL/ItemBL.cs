@@ -12,6 +12,10 @@ namespace BL
         {
             return itemDAL.GetListsItems();
         }
+        public List<Item> GetListsItems(int numberPage)
+        {
+            return itemDAL.GetListsItems(numberPage);
+        }
         public Item GetAnItem(int? itemId)
         {
             if (itemId == null)

@@ -27,9 +27,7 @@ namespace PL_Console
                         ShowInfoCustomer(us);
                         continue;
                     case 2:
-                        List<Item> items = null;
-                        items = itemBl.GetListsItems();
-                        ShowlistItems(items);
+                        ShowlistItems();
                         continue;
                     case 3:
                         ShopingCart();
@@ -51,8 +49,10 @@ namespace PL_Console
             Utility.InfoCustomer("Thông tin khách hàng", listcol, us);
 
         }
-        public void ShowlistItems(List<Item> items)
+        public void ShowlistItems()
         {
+            List<Item> items = null;
+            items = itemBl.GetListsItems();
             int? idItem;
             while (true)
             {
@@ -71,6 +71,100 @@ namespace PL_Console
             }
 
         }
+        // public void ShowlistItems()
+        // {
+        //     int numberPage = 0;
+        //     List<Item> items = null;
+        //     items = itemBl.GetListsItems(numberPage);
+        //     int? idItem = 0;
+        //     while (true)
+        //     {
+
+        //         string[] listcol = { "ID Sách", "Tên sách", "Giá", "Tác giả", "Danh mục" };
+        //         Utility.showListItems("Danh sách sách", listcol, items);
+
+        //         Console.Write("Chọn mã sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
+        //         var ch = Console.ReadKey(false).Key;
+
+        //         // if (idItem < 0 || idItem > items.Count)
+        //         // {
+        //         //     do
+        //         //     {
+        //         //         try
+        //         //         {
+        //         //             Console.Write("#Bạn nhập sai vui lòng nhập lại: ");
+        //         //             idItem = Int16.Parse(Console.ReadLine());
+        //         //         }
+        //         //         catch (System.Exception)
+        //         //         {
+        //         //             continue;
+        //         //         }
+        //         //     } while (idItem < 0 || idItem > items.Count);
+        //         // }
+
+        //         switch (ch)
+        //         {
+        //             case ConsoleKey.RightArrow:
+        //                 Console.Clear();
+        //                 numberPage += 3;
+        //                 items = itemBl.GetListsItems(numberPage);
+        //                 continue;
+        //             case ConsoleKey.LeftArrow:
+        //                 Console.Clear();
+        //                 if (numberPage < 3)
+        //                 {
+        //                     numberPage = 0;
+        //                     continue;
+        //                 }
+        //                 else
+        //                 {
+        //                     numberPage -= 3;
+        //                     items = itemBl.GetListsItems(numberPage);
+        //                 }
+        //                 continue;
+        //             case ConsoleKey.Enter:
+        //                 try
+        //                 {
+        //                     Console.Write("Chọn mã sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
+        //                     idItem = Int16.Parse(Console.ReadLine());
+        //                 }
+        //                 catch (System.Exception)
+        //                 {
+
+        //                 }
+        //                 if (idItem < 0 || idItem > items.Count)
+        //                 {
+        //                     do
+        //                     {
+        //                         try
+        //                         {
+        //                             Console.Write("#Bạn nhập sai vui lòng nhập lại: ");
+        //                             idItem = Int16.Parse(Console.ReadLine());
+        //                         }
+        //                         catch (System.Exception)
+        //                         {
+        //                             continue;
+        //                         }
+        //                     } while (idItem < 0 || idItem > items.Count);
+        //                 }else{
+        //                     ShowAnItem(idItem);
+        //                 }
+        //                 continue;
+
+        //         }
+
+        //         // switch (idItem)
+        //         // {
+        //         //     case 0:
+        //         //         break;
+        //         //     default:
+        //         //         ShowAnItem(idItem);
+        //         //         continue;
+        //         // }
+        //         break;
+        //     }
+
+        // }
         public void ShowAnItem(int? idItem)
         {
             Console.Clear();
@@ -88,7 +182,7 @@ namespace PL_Console
             table.Write();
             Console.WriteLine("Mô tả");
             WriteLineWordWrap(item.ItemDescription);
-            
+
             Console.WriteLine();
             string choice = Utility.OnlyYN("Nhấn Y để thêm vào giỏ hàng hoặc nhấn N để quay trở lại: ");
             Console.WriteLine();
@@ -231,7 +325,7 @@ namespace PL_Console
             OrderBl orderBL = new OrderBl();
             List<Order> listOrder = new List<Order>();
             listOrder = orderBL.ShowOrder(user.UserId);
-           
+
             var table = new ConsoleTable("Id order", "Tên sách", "Ngày mua");
             foreach (var item in listOrder)
             {
