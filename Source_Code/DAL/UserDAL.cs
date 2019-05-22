@@ -73,6 +73,7 @@ namespace DAL
             user.UserEmail = reader.GetString("userEmail");
             user.UserIdCardNo = reader.GetString("userIdCardNo");
             user.UserBalance = reader.GetDouble("userBalance");
+            user.UserShoppingCart = reader.GetBoolean("UserShoppingCart");
             return user;
         }
 

@@ -10,7 +10,7 @@ namespace Persistence.MODEL
         
         public int? OrderId {get;set;}
         public User OrderUser{get;set;}
-        public DateTime OrderDate{get;set;}
+        public DateTime? OrderDate{get;set;}
         public int OrderStatus{get;set;}
         public Item OrderItem;
         public List<Item> ListItems;

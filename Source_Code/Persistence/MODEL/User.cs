@@ -14,5 +14,8 @@ namespace Persistence.MODEL
         public string UserEmail{get;set;}
         public string UserIdCardNo{get;set;}
         public double UserBalance{get;set;}
+        public bool UserShoppingCart{get;set;}
+        
+        
     }
 }

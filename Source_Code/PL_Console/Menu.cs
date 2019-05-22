@@ -32,13 +32,13 @@ namespace PL_Console
         public void MenuLogin()
         {
             Console.Clear();
-            UserBL userBL = new UserBL();
-            User user = null;
+            UserBL userBL = new UserBL();     
             string username = null;
             string password = null;
             string choice;
             while (true)
             {
+                User user = null;
                 string row1 = "=====================================================================";
                 string row2 = "---------------------------------------------------------------------";
                 Console.WriteLine(row1);

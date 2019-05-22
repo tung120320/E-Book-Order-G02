@@ -26,8 +26,30 @@ namespace BL
           
             return orderDAL.GetAllOrder(userId);
         }
+       
         public List<Item> ShowShopingCart(int? userId){
             return orderDAL.ShowShopingCart(userId);
+        }
+        public bool CreateOrder(Order order, double total){
+            if(total > order.OrderUser.UserBalance){
+                return false;
+            }else{
+                order.OrderUser.UserBalance -= total;
+            }
+            
+            return orderDAL.CreateOrder(order);
+        }
+        public bool UpdateUserShoppingCart(bool IsHave, int? userId){
+          
+            return orderDAL.UpdateUserShoppingCart(IsHave,userId);
+        }
+        public bool GetStatusShoppingCart(int? userId){
+          
+            return orderDAL.GetStatusShoppingCart(userId);
+        }
+        public List<Order> ShowOrder(int? userId){
+          
+            return orderDAL.ShowOrder(userId);
         }
     }
 }

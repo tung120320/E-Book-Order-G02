@@ -3,6 +3,7 @@ using Persistence.MODEL;
 using BL;
 using System.Collections.Generic;
 using ConsoleTables;
+using System.Text.RegularExpressions;
 namespace PL_Console
 {
     public class ConsoleCus
@@ -34,7 +35,8 @@ namespace PL_Console
                         ShopingCart();
                         continue;
                     case 4:
-                        break;
+                        ShowOrder();
+                        continue;
                 }
                 break;
 
@@ -85,7 +87,8 @@ namespace PL_Console
             table.AddRow("Số trang:", item.ItemPages);
             table.Write();
             Console.WriteLine("Mô tả");
-            Console.WriteLine(item.ItemDescription);
+            WriteLineWordWrap(item.ItemDescription);
+            
             Console.WriteLine();
             string choice = Utility.OnlyYN("Nhấn Y để thêm vào giỏ hàng hoặc nhấn N để quay trở lại: ");
             Console.WriteLine();
@@ -106,35 +109,15 @@ namespace PL_Console
             order.OrderUser = new User();
             order.OrderItem = new Item();
             order.ListItems = new List<Item>();
-            int orderStatus;
-            try
-            {
-                var listOrder = orderBL.GetAllOrder(user.UserId);
-                orderStatus = listOrder.FindIndex(x => x.OrderStatus == 0);
-            }
-            catch (System.Exception)
-            {
+            order.OrderUser.UserId = user.UserId;
+            order.OrderItem.ItemId = item.ItemId;
 
-                throw;
-            }
-            // orderStatus == -1 : chưa tạo order
-            // orderStatus == 0 : đẫ tạo order
-            // orderStatus == 1 : order thành công
-            Console.WriteLine(orderStatus);
-            if (orderStatus == -1)
+
+            // GetStatusShoppingCart == false : chưa có order
+            // GetStatusShoppingCart == true : order thành công
+
+            if (orderBL.GetStatusShoppingCart(user.UserId))
             {
-                order.OrderStatus = 0;
-                order.OrderUser.UserId = user.UserId;
-                order.OrderItem = item;
-                if (orderBL.CreateShoppingCart(order))
-                {
-                    Console.WriteLine("Chưa có giỏ hàng");
-                    Console.WriteLine("Thêm vào giỏ hàng thành công");
-                }
-            }
-            else if (orderStatus == 0)
-            {
-                order.OrderItem.ItemId = item.ItemId;
                 try
                 {
                     if (orderBL.AddToShoppingcart(order))
@@ -153,6 +136,26 @@ namespace PL_Console
                 }
 
             }
+            else
+            {
+                orderBL.UpdateUserShoppingCart(false, user.UserId); // set userShopping cart to 1
+                order.OrderStatus = 0;
+                try
+                {
+                    if (orderBL.CreateShoppingCart(order))
+                    {
+                        Console.WriteLine("Chưa có giỏ hàng");
+                        Console.WriteLine("Thêm vào giỏ hàng thành công");
+                    }
+                }
+                catch (System.Exception)
+                {
+
+                    throw;
+                }
+
+
+            }
 
             Console.ReadKey();
         }
@@ -160,37 +163,110 @@ namespace PL_Console
         {
             Console.Clear();
             OrderBl orderBL = new OrderBl();
-            List<Item> Listitems = new List<Item>();
-            Listitems = orderBL.ShowShopingCart(user.UserId);
+            List<Item> shoppingCart = new List<Item>();
+            shoppingCart = orderBL.ShowShopingCart(user.UserId);
             double total = 0;
-            if (Listitems.Count <= 0)
+            if (shoppingCart.Count <= 0)
             {
                 Console.WriteLine("Chưa có sách");
+                Console.ReadKey();
             }
             else
             {
                 var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách");
-                foreach (var item in Listitems)
+                foreach (var item in shoppingCart)
                 {
                     total += item.ItemPrice;
                     table.AddRow(item.ItemId, item.ItemName, item.ItemPrice);
                 }
                 table.Write();
                 Console.WriteLine("Tổng tiền: {0}", total);
-            }
-            string choice = Utility.OnlyYN("Bạn có muốn thanh toán? (Y/N)");
-            Console.WriteLine();
-            switch (choice)
-            {
-                case "Y":
-                    CreateOrder();
-                    break;
-                case "N":
-                    break;
+                string choice = Utility.OnlyYN("Bạn có muốn thanh toán? (Y/N): ");
+                Console.WriteLine();
+                switch (choice)
+                {
+                    case "Y":
+                        CreateOrder(total);
+                        break;
+                    case "N":
+                        break;
+                }
             }
         }
-        public void CreateOrder(){
-            
+        public void CreateOrder(double total)
+        {
+            order.OrderUser = new User();
+            OrderBl orderBL = new OrderBl();
+            order.OrderUser = user;
+            if (order.OrderUser.UserBalance < total)
+            {
+                Console.WriteLine("Bạn không đủ tiền vui lòng nạp thêm tiền");
+            }
+            else
+            {
+                try
+                {
+                    if (orderBL.CreateOrder(order, total))
+                    {
+                        Console.WriteLine("Mua hàng thành công");
+                        orderBL.UpdateUserShoppingCart(true, user.UserId); // set userShopping cart to 0
+                    }
+                    else
+                    {
+                        Console.WriteLine("Mua hàng thất bại");
+                    }
+                }
+                catch (System.Exception)
+                {
+
+                    throw;
+                }
+
+            }
+            Console.ReadKey();
+
+        }
+        public void ShowOrder()
+        {
+            OrderBl orderBL = new OrderBl();
+            List<Order> listOrder = new List<Order>();
+            listOrder = orderBL.ShowOrder(user.UserId);
+           
+            var table = new ConsoleTable("Id order", "Tên sách", "Ngày mua");
+            foreach (var item in listOrder)
+            {
+                table.AddRow(item.OrderId, item.OrderItem.ItemName, item.OrderDate);
+            }
+            table.Write();
+            Console.ReadKey();
+        }
+        public static void WriteLineWordWrap(string paragraph, int tabSize = 8)
+        {
+            string[] lines = paragraph
+                .Replace("\t", new String(' ', tabSize))
+                .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string process = lines[i];
+                List<String> wrapped = new List<string>();
+
+                while (process.Length > Console.WindowWidth)
+                {
+                    int wrapAt = process.LastIndexOf(' ', Math.Min(Console.WindowWidth - 1, process.Length));
+                    if (wrapAt <= 0) break;
+
+                    wrapped.Add(process.Substring(0, wrapAt));
+                    process = process.Remove(0, wrapAt + 1);
+                }
+
+                foreach (string wrap in wrapped)
+                {
+                    Console.WriteLine(wrap);
+                }
+
+                Console.WriteLine(process);
+            }
         }
     }
 }

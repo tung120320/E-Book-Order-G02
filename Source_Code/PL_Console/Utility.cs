@@ -55,7 +55,6 @@ namespace PL_Console
         public static void InfoCustomer(string title, string[] menuItems, User us)
         {
             Console.Clear();
-            short choose = 1;
             Console.WriteLine(row1);
             Console.WriteLine(title);
             Console.WriteLine(row2);
@@ -70,31 +69,9 @@ namespace PL_Console
 
             }
             Console.WriteLine(row1);
-            try
-            {
-                Console.Write("Nhập 0 để quay lại: ");
-                choose = Int16.Parse(Console.ReadLine());
-            }
-            catch (System.Exception)
-            {
+            Console.Write("Nhấn phím bất kì để quay lại ");
+            Console.ReadKey();
 
-            }
-            if (choose != 0)
-            {
-                do
-                {
-                    try
-                    {
-                        Console.Write("#Bạn nhập sai vui lòng nhập lại: ");
-                        choose = Int16.Parse(Console.ReadLine());
-                    }
-                    catch (System.Exception)
-                    {
-                        continue;
-                    }
-                } while (choose != 0);
-            }
-           
         }
         public static short showListItems(string title, string[] menuItems, List<Item> items)
 
@@ -102,9 +79,9 @@ namespace PL_Console
             Console.Clear();
 
             short idItem = -1;
-            var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
+            var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
 
-            
+
             foreach (Item item in items)
             {
                 table.AddRow(item.ItemId, item.ItemName, item.ItemPrice, item.ItemAuthor, item.ItemCategory);
@@ -113,7 +90,7 @@ namespace PL_Console
             table.Write();
             try
             {
-                Console.Write("Chọn id sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
+                Console.Write("Chọn mã sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
                 idItem = Int16.Parse(Console.ReadLine());
             }
             catch (System.Exception)
@@ -136,9 +113,9 @@ namespace PL_Console
                 } while (idItem < 0 || idItem > items.Count);
             }
             return idItem;
-           
+
         }
-         public static string OnlyYN(string printcl)
+        public static string OnlyYN(string printcl)
         {
             string choice;
             Console.Write(printcl);
