@@ -24,7 +24,7 @@ namespace DAL
             {
                 connection.Open();
             }
-            query = "select * from items;";
+            query = "select * from items limit 10;";
             MySqlCommand command = new MySqlCommand(query, connection);
             List<Item> items = null;
             using (reader = command.ExecuteReader())
@@ -82,15 +82,16 @@ namespace DAL
             Item item = null;
             using (reader = command.ExecuteReader())
             {
-                if(reader.Read()){
+                if (reader.Read())
+                {
                     item = GetItem(reader);
                 }
-                
+
             }
             connection.Close();
             return item;
         }
-
+        
         private Item GetItem(MySqlDataReader reader)
         {
             Item item = new Item();

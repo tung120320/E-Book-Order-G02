@@ -13,35 +13,35 @@ namespace DAL
         {
             connection = DbHelper.OpenConnection();
         }
-        public List<Order> GetAllOrder(int? userId)
-        {
-            if (userId == null)
-            {
-                return null;
-            }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection = DbHelper.OpenConnection();
-            }
+        // public List<Order> GetAllOrder(int? userId)
+        // {
+        //     if (userId == null)
+        //     {
+        //         return null;
+        //     }
+        //     if (connection.State == System.Data.ConnectionState.Closed)
+        //     {
+        //         connection = DbHelper.OpenConnection();
+        //     }
 
-            List<Order> listOrder = new List<Order>();
-            // query = $@"select orderStatus from Orders ord inner join OrderDetails ordl on ord.orderId = ordl.orderId where orderUser = {userId};";
-            query = $@"select * from Orders where orderUser = @orderUser ";
+        //     List<Order> listOrder = new List<Order>();
+        //     // query = $@"select orderStatus from Orders ord inner join OrderDetails ordl on ord.orderId = ordl.orderId where orderUser = {userId};";
+        //     query = $@"select * from Orders where orderUser = @orderUser ";
 
-            MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@orderUser", userId);
-            using (reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    listOrder.Add(GetOrder(reader));
+        //     MySqlCommand command = new MySqlCommand(query, connection);
+        //     command.Parameters.AddWithValue("@orderUser", userId);
+        //     using (reader = command.ExecuteReader())
+        //     {
+        //         while (reader.Read())
+        //         {
+        //             listOrder.Add(GetOrder(reader));
 
-                }
-            }
+        //         }
+        //     }
 
-            connection.Close();
-            return listOrder;
-        }
+        //     connection.Close();
+        //     return listOrder;
+        // }
         public bool GetStatusShoppingCart(int? userId)
         {
             if (userId == null)

@@ -21,11 +21,11 @@ namespace BL
           
             return orderDAL.AddToShoppingcart(order);
         }
-        public List<Order> GetAllOrder(int? userId)
-        {
+        // public List<Order> GetAllOrder(int? userId)
+        // {
           
-            return orderDAL.GetAllOrder(userId);
-        }
+        //     return orderDAL.GetAllOrder(userId);
+        // }
        
         public List<Item> ShowShopingCart(int? userId){
             return orderDAL.ShowShopingCart(userId);

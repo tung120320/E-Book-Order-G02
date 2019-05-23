@@ -57,12 +57,12 @@ namespace DAL.Test
             Order order = new Order();
             Assert.Null(orderDAL.ShowShopingCart(orderId));
         }
-        [Fact]
-        public void TestGetAllOrder()
-        {
+        // [Fact]
+        // public void TestGetAllOrder()
+        // {
            
-            Assert.NotNull(orderDAL.GetAllOrder(2)); 
-        }
+        //     Assert.NotNull(orderDAL.GetAllOrder(2)); 
+        // }
        
        
     }
