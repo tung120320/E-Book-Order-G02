@@ -6,10 +6,16 @@ namespace BL
 {
     public class OrderBl
     {
-        OrderDAL orderDAL = new OrderDAL();
+        OrderDAL orderDAL;
+
+        public OrderBl()
+        {
+            orderDAL = new OrderDAL();
+        }
+
         public bool CreateShoppingCart(Order order)
         {
-            
+
             if (order == null)
             {
                 return false;
@@ -18,38 +24,52 @@ namespace BL
         }
         public bool AddToShoppingcart(Order order)
         {
-          
+
             return orderDAL.AddToShoppingcart(order);
+        }
+        public bool DeleteItemInShoppingCartByIdItem(int? itemId)
+        {
+
+            return orderDAL.DeleteItemInShoppingCartByIdItem(itemId);
         }
         // public List<Order> GetAllOrder(int? userId)
         // {
-          
+
         //     return orderDAL.GetAllOrder(userId);
         // }
-       
-        public List<Item> ShowShopingCart(int? userId){
-            return orderDAL.ShowShopingCart(userId);
+
+        public List<Item> ShowShopingCartByUserId(int? userId)
+        {
+            return orderDAL.ShowShopingCartByUserId(userId);
         }
-        public bool CreateOrder(Order order, double total){
-            if(total > order.OrderUser.UserBalance){
+        public bool CreateOrder(Order order, double total)
+        {
+            if (total > order.OrderUser.UserBalance)
+            {
                 return false;
-            }else{
+            }
+            else
+            {
                 order.OrderUser.UserBalance -= total;
             }
-            
+
             return orderDAL.CreateOrder(order);
         }
-        public bool UpdateUserShoppingCart(bool IsHave, int? userId){
-          
-            return orderDAL.UpdateUserShoppingCart(IsHave,userId);
+
+        public List<Order> ShowOrderByUserId(int? userId)
+        {
+
+            return orderDAL.ShowOrderByUserId(userId);
         }
-        public bool GetStatusShoppingCart(int? userId){
-          
-            return orderDAL.GetStatusShoppingCart(userId);
+        public Order ShowOrderUserPaySucess(int? userId)
+        {
+
+            return orderDAL.ShowOrderUserPaySucess(userId);
         }
-        public List<Order> ShowOrder(int? userId){
-          
-            return orderDAL.ShowOrder(userId);
+        public bool DeleteAllItemInShoppingCartByUserID(int? userId)
+        {
+
+            return orderDAL.DeleteAllItemInShoppingCartByUserID(userId);
         }
     }
 }

@@ -7,16 +7,46 @@ namespace BL
 {
     public class ItemBl
     {
-        private ItemDAL itemDAL = new ItemDAL();
-        public List<Item> GetListsItems()
+        private ItemDAL itemDAL;
+
+        public ItemBl()
         {
-            return itemDAL.GetListsItems();
+            itemDAL = new ItemDAL();
         }
-        public List<Item> GetListsItems(int numberPage)
+
+        public List<Item> GetListItems()
         {
-            return itemDAL.GetListsItems(numberPage);
+            
+            return itemDAL.GetListItems();
         }
-        public Item GetAnItem(int? itemId)
+        public List<Item> SearchItemName(string itemName)
+        {
+            List<Item> items = new List<Item>();
+            List<Item> news = new List<Item>();
+            items = itemDAL.SearchItemName();
+            int ok = 0;
+            foreach (var item in items)
+            {
+                for (int i = 0; i < item.ItemName.Length; i++)
+                {
+                    for (int j = 0; j < itemName.Length; j++)
+                    {
+                        if(item.ItemName[i] == itemName[j]){
+                            ok++;
+                        }
+                    }
+                }
+                if(ok >= 5){
+                    news.Add(item);
+                }
+            }
+            return news;
+        }
+        // public List<Item> GetListsItems(int numberPage)
+        // {
+        //     return itemDAL.GetListsItems(numberPage);
+        // }
+        public Item GetAnItemById(int? itemId)
         {
             if (itemId == null)
             {
@@ -28,7 +58,7 @@ namespace BL
             {
                 return null;
             }
-            return itemDAL.GetAnItem(itemId);
+            return itemDAL.GetAnItemById(itemId);
         }
     }
 

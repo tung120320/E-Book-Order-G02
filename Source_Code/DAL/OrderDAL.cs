@@ -6,98 +6,10 @@ namespace DAL
 {
     public class OrderDAL
     {
-        private MySqlConnection connection;
+
         private MySqlDataReader reader;
         private string query;
-        public OrderDAL()
-        {
-            connection = DbHelper.OpenConnection();
-        }
-        // public List<Order> GetAllOrder(int? userId)
-        // {
-        //     if (userId == null)
-        //     {
-        //         return null;
-        //     }
-        //     if (connection.State == System.Data.ConnectionState.Closed)
-        //     {
-        //         connection = DbHelper.OpenConnection();
-        //     }
-
-        //     List<Order> listOrder = new List<Order>();
-        //     // query = $@"select orderStatus from Orders ord inner join OrderDetails ordl on ord.orderId = ordl.orderId where orderUser = {userId};";
-        //     query = $@"select * from Orders where orderUser = @orderUser ";
-
-        //     MySqlCommand command = new MySqlCommand(query, connection);
-        //     command.Parameters.AddWithValue("@orderUser", userId);
-        //     using (reader = command.ExecuteReader())
-        //     {
-        //         while (reader.Read())
-        //         {
-        //             listOrder.Add(GetOrder(reader));
-
-        //         }
-        //     }
-
-        //     connection.Close();
-        //     return listOrder;
-        // }
-        public bool GetStatusShoppingCart(int? userId)
-        {
-            if (userId == null)
-            {
-                return false;
-            }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection = DbHelper.OpenConnection();
-            }
-
-            query = $@"select UserShoppingCart from  Users  where userId = {userId};";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            User user = null;
-            using (reader = command.ExecuteReader())
-            {
-                user = new User();
-                if (reader.Read())
-                {
-                    user.UserShoppingCart = GetStatusCart(reader);
-                }
-            }
-            connection.Close();
-            if (user.UserShoppingCart == false)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        public bool UpdateUserShoppingCart(bool isHave, int? userId)
-        {
-            if (userId == null)
-            {
-                return false;
-            }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection = DbHelper.OpenConnection();
-            }
-            MySqlCommand command = connection.CreateCommand();
-            switch (isHave)
-            {
-                case true:
-                    command.CommandText = $@"update Users set userShoppingCart = false where userId = {userId}";
-                    break;
-                case false:
-                    command.CommandText = $@"update Users set userShoppingCart = true where userId = {userId}";
-                    break;
-
-            }
-            command.ExecuteNonQuery();
-
-            connection.Close();
-            return true;
-        }
+        public OrderDAL() { }
 
         public bool CreateShoppingCart(Order order)
         {
@@ -107,11 +19,8 @@ namespace DAL
             {
                 return result;
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
 
+            MySqlConnection connection = DbHelper.OpenConnection();
             MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = @"lock tables Orders write, Items write, OrderDetails write";
@@ -119,8 +28,6 @@ namespace DAL
 
             MySqlTransaction transaction = connection.BeginTransaction();
             command.Transaction = transaction;
-
-
             try
             {
                 command.CommandText = "insert into Orders(orderUser,orderStatus) values (@userId,@OrderStatus)";
@@ -138,14 +45,13 @@ namespace DAL
 
                     }
                 }
-                // foreach (var Orderitem in order.ListItems)
-                // {
+
                 command.Parameters.Clear();
                 command.CommandText = "insert into OrderDetails(orderId,itemId) values (@orderId,@itemId)";
                 command.Parameters.AddWithValue("@orderId", order.OrderId);
                 command.Parameters.AddWithValue("@itemId", order.OrderItem.ItemId);
                 command.ExecuteNonQuery();
-                //}
+
                 transaction.Commit();
                 result = true;
             }
@@ -159,7 +65,8 @@ namespace DAL
             {
                 command.CommandText = "unlock tables";
                 command.ExecuteNonQuery();
-                connection.Clone();
+                connection.Close();
+
             }
 
             return result;
@@ -170,19 +77,7 @@ namespace DAL
 
             bool result = false;
 
-            try
-            {
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-            }
-            catch (System.Exception)
-            {
-
-                throw;
-            }
-
+            MySqlConnection connection = DbHelper.OpenConnection();
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = @"lock tables Orders write, Items write, OrderDetails write";
             command.ExecuteNonQuery();
@@ -200,12 +95,14 @@ namespace DAL
             }
             try
             {
+
                 command.CommandText = "insert into OrderDetails(orderId,itemId) values (@orderId,@itemId)";
                 command.Parameters.AddWithValue("@orderId", order.OrderId);
                 command.Parameters.AddWithValue("@itemId", order.OrderItem.ItemId);
                 command.ExecuteNonQuery();
                 transaction.Commit();
                 result = true;
+
             }
             catch (System.Exception)
             {
@@ -216,39 +113,104 @@ namespace DAL
             {
                 command.CommandText = "unlock tables";
                 command.ExecuteNonQuery();
-                connection.Clone();
+                connection.Close();
+
             }
 
             return result;
 
         }
+        public bool DeleteItemInShoppingCartByIdItem(int? itemId)
+        {
+            if (itemId == null)
+            {
+                return false;
+            }
+            query = $@"DELETE FROM orderDetails where itemId = {itemId};";
 
-        public List<Item> ShowShopingCart(int? userId)
+            MySqlConnection connection = DbHelper.OpenConnection();
+            if (DbHelper.ExecNonQuery(query, connection) == 0)
+            {
+                DbHelper.CloseConnection();
+                return false;
+            }
+            DbHelper.CloseConnection();
+            return true;
+
+        }
+        public bool DeleteAllItemInShoppingCartByUserID(int? userId)
+        {
+            bool result = false;
+            int orderId = -1;
+            MySqlConnection connection = DbHelper.OpenConnection();
+
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = @"lock tables Users write, Orders write, Items write, OrderDetails write";
+            command.ExecuteNonQuery();
+            MySqlTransaction transaction = connection.BeginTransaction();
+            command.Transaction = transaction;
+
+            try
+            {
+                string queryLastInsertId = $@"select max(orderId) as orderId from orders where orderUser = {userId} order by orderid desc limit 1;";
+                MySqlCommand selectLastId = new MySqlCommand(queryLastInsertId, connection);
+                using (reader = selectLastId.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        orderId = reader.GetInt32("orderId");
+
+                    }
+                }
+
+                command.Parameters.Clear();
+                command.CommandText = $@"DELETE FROM orderDetails where orderId = {orderId}";
+                command.ExecuteNonQuery();
+
+                command.Parameters.Clear();
+                command.CommandText = $@"DELETE FROM orders where orderId = {orderId}";
+                command.ExecuteNonQuery();
+
+                transaction.Commit();
+                result = true;
+            }
+
+            catch (System.Exception e)
+            {
+                transaction.Rollback();
+                Console.WriteLine(e);
+                return result;
+            }
+            finally
+            {
+                command.CommandText = "unlock tables";
+                command.ExecuteNonQuery();
+                connection.Clone();
+
+            }
+
+            return result;
+
+
+
+        }
+        public List<Item> ShowShopingCartByUserId(int? userId)
         {
             if (userId == null)
             {
                 return null;
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection = DbHelper.OpenConnection();
-            }
+
             List<Item> listItems = new List<Item>();
             query = $@"select it.itemId, it.itemName, it.itemPrice from 
             orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId where ord.orderUser = {userId} and ord.orderStatus = 0 ;";
-            MySqlCommand command = new MySqlCommand(query, connection);
-
-            using (reader = command.ExecuteReader())
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    listItems.Add(GetItemShoppingCart(reader));
-                }
-
+                listItems.Add(GetItemShoppingCart(reader));
             }
-
-            connection.Close();
+            DbHelper.CloseConnection();
             return listItems;
 
         }
@@ -260,17 +222,13 @@ namespace DAL
             {
                 return result;
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
+            MySqlConnection connection = DbHelper.OpenConnection();
 
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = @"lock tables Users write, Orders write, Items write, OrderDetails write";
             command.ExecuteNonQuery();
             MySqlTransaction transaction = connection.BeginTransaction();
             command.Transaction = transaction;
-
 
             try
             {
@@ -308,38 +266,51 @@ namespace DAL
                 command.CommandText = "unlock tables";
                 command.ExecuteNonQuery();
                 connection.Clone();
+
             }
 
             return result;
 
         }
-        public List<Order> ShowOrder(int? userId)
+        public List<Order> ShowOrderByUserId(int? userId)
         {
             if (userId == null)
             {
                 return null;
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection = DbHelper.OpenConnection();
-            }
+
             List<Order> listOrders = new List<Order>();
             query = $@"select ord.orderId, ord.orderDate, it.itemName from 
             orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId
              where ord.orderUser = {userId} and ord.orderStatus = 1";
-            MySqlCommand command = new MySqlCommand(query, connection);
-
-            using (reader = command.ExecuteReader())
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    listOrders.Add(GetAllOrder(reader));
-                }
-
+                listOrders.Add(GetOrder(reader));
             }
-            connection.Close();
+            DbHelper.CloseConnection();
             return listOrders;
+        }
+        public Order ShowOrderUserPaySucess(int? userId)
+        {
+            if (userId == null)
+            {
+                return null;
+            }
+
+            Order order = null;
+            query = $@"select max(ord.orderId) as orderId, ord.orderDate, it.itemName from 
+            orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
+            inner join Items it on ordt.itemId = it.itemId
+             where ord.orderUser = {userId} ";
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            if (reader.Read())
+            {
+                order = GetOrder(reader);
+            }
+            DbHelper.CloseConnection();
+            return order;
         }
         private Item GetItemShoppingCart(MySqlDataReader reader)
         {
@@ -349,23 +320,7 @@ namespace DAL
             item.ItemPrice = reader.GetDouble("itemPrice");
             return item;
         }
-
         private Order GetOrder(MySqlDataReader reader)
-        {
-            Order order = new Order();
-            order.OrderUser = new User();
-            order.OrderId = reader.GetInt32("orderId");
-            order.OrderUser.UserId = reader.GetInt32("orderUser");
-            order.OrderStatus = reader.GetInt32("orderStatus");
-            return order;
-        }
-        private bool GetStatusCart(MySqlDataReader reader)
-        {
-            User user = new User();
-            user.UserShoppingCart = reader.GetBoolean("UserShoppingCart");
-            return user.UserShoppingCart;
-        }
-         private Order GetAllOrder(MySqlDataReader reader)
         {
             Item item = new Item();
             Order order = new Order();

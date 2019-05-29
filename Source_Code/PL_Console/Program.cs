@@ -7,7 +7,7 @@ namespace PL_Console
         static void Main(string[] args)
         {
           Menu menu = new Menu();
-          menu.MenuChoice();
+          menu.Program();
        
         }
     }

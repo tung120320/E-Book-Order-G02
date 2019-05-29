@@ -77,7 +77,7 @@ select * from users;
 select * from orderdetails;
 select * from orders where orderUser = 1 order by orderid desc limit 1;
 select * from Orderdetails where itemId = 1;
-select max(ord.orderId), ord.orderDate, it.itemName from orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId inner join Items it on ordt.itemId = it.itemId where ord.orderUser = 1 and ord.orderStatus = 1;
+
 select orderStatus from Orders ord inner join OrderDetails ordl on ord.orderId = ordl.orderId where orderUser = 1;
 select ord.orderId, ord.orderDate, it.itemName from orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId inner join Items it on ordt.itemId = it.itemId where ord.orderUser = 1 and ord.orderStatus = 1;
 -- insert into orders (orderUser,orderStatus) values(1,0);
@@ -97,6 +97,3 @@ create table if not exists Ratings(
 -- insert into Ratings values();
 select * from Ratings;
 select * from ratings where itemId = 3;
-UPDATE Ratings 
-            SET ratingStars = 2, ratingTitle = 'ok', ratingContent = 'good', ratingDate = NOW()
-             WHERE itemID = 1 and userID = 1;

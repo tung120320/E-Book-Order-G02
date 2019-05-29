@@ -2,68 +2,98 @@ using System;
 using Xunit;
 using Persistence.MODEL;
 using System.Collections.Generic;
+
 namespace DAL.Test
 {
+
     public class OrderUnitTest
     {
+
         OrderDAL orderDAL = new OrderDAL();
         [Fact]
-        public void TestCreateShoppingCart()
+        public void CreateShoppingCartTest()
         {
+            UserDAL userDAL = new UserDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
-            User user = new User();
-            user.UserId = 1;
-
-            Item item = new Item();
-            item.ItemId = 2;
-
             order.OrderStatus = 0;
-            order.OrderUser.UserId = user.UserId;
-            order.OrderItem.ItemId = item.ItemId;
-            
+            order.OrderUser.UserId = 1;
+            order.OrderItem.ItemId = 2;
             Assert.True(orderDAL.CreateShoppingCart(order));
+            userDAL.UpdateStatusShoppingCartById(false, order.OrderUser.UserId); // set userShopping cart to 1
+        }
+        // [Fact]
+        // public void AddToShoppingCartTest()
+        // {
+        //     Order order = new Order();
+        //     UserDAL userDAL = new UserDAL();
+        //     order.OrderUser = new User();
+        //     Item item = new Item();
+        //     order.OrderItem = new Item();
+
+
+        //     order.OrderUser.UserId = 1;
+        //     order.OrderItem.ItemId = 4;
+        //     Assert.True(orderDAL.AddToShoppingcart(order));
+        // }
+
+
+        // [Fact]
+        // public void AddToShoppingCartTest1()
+        // {
+        //     Order order = new Order();
+        //     order.OrderUser = new User();
+        //     Item item = new Item();
+        //     order.OrderItem = new Item();
+
+
+        //     order.OrderItem.ItemId = null;
+
+        //     Assert.False(orderDAL.AddToShoppingcart(order));
+        // }
+        
+        [Fact]
+        public void ShowShopingCartByUserIdTest()
+        {
+            Assert.NotNull(orderDAL.ShowShopingCartByUserId(1));
         }
         [Fact]
-        public void TestAddToShoppingcart()
+        public void ShowShopingCartByUserIdTest1()
         {
-            Order order = new Order();
-            Item item = new Item();
-            order.OrderItem = new Item();
+            Assert.Null(orderDAL.ShowShopingCartByUserId(null));
+        }
 
-            order.OrderId = 1;
-            order.OrderItem.ItemId = 4;
-            
-            Assert.True(orderDAL.AddToShoppingcart(order));
-        }
-        [Theory]
-        [InlineData(1)]
+        // [Theory]
+        // [InlineData(1)]
+        // public void ShowOrderByUserIdTest(int? orderId)
+        // {
+        //     Order order = new Order();
+        //     Assert.Null(orderDAL.ShowOrderByUserId(orderId));
+        // }
 
-        public void GetAnOrder(int? orderId)
+        // [Fact]
+        // public void ShowOrderByUserIdTest()
+        // {
+        //     Assert.NotNull(orderDAL.ShowOrderByUserId(1));
+        // }
+        [Fact]
+        public void ShowOrderByUserIdTest1()
         {
-            Order order = new Order();
-            Assert.NotNull(orderDAL.ShowShopingCart(orderId));
+            Assert.Null(orderDAL.ShowOrderByUserId(null));
         }
-       
-        [Theory]
-        
-        [InlineData(0)]
-        [InlineData(null)]
-        
-        public void GetAnOrder1(int? orderId)
-        {
-            Order order = new Order();
-            Assert.Null(orderDAL.ShowShopingCart(orderId));
-        }
+
+
+
+
         // [Fact]
         // public void TestGetAllOrder()
         // {
-           
+
         //     Assert.NotNull(orderDAL.GetAllOrder(2)); 
         // }
-       
-       
+
+
     }
 }

@@ -52,6 +52,42 @@ namespace PL_Console
             }
             return choose;
         }
+        public static short MenuDetail(string title, string[] menuItems)
+        {
+
+            short choose = 0;
+
+            for (int i = 0; i < menuItems.Length; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + menuItems[i]);
+            }
+            Console.WriteLine(row1);
+            try
+            {
+                Console.Write("#Chọn: ");
+                choose = Int16.Parse(Console.ReadLine());
+            }
+            catch (System.Exception)
+            {
+
+            }
+            if (choose <= 0 || choose > menuItems.Length)
+            {
+                do
+                {
+                    try
+                    {
+                        Console.Write("#Bạn nhập sai vui lòng nhập lại: ");
+                        choose = Int16.Parse(Console.ReadLine());
+                    }
+                    catch (System.Exception)
+                    {
+                        continue;
+                    }
+                } while (choose <= 0 || choose > menuItems.Length);
+            }
+            return choose;
+        }
         public static void InfoCustomer(string title, string[] menuItems, User us)
         {
             Console.Clear();
@@ -77,7 +113,7 @@ namespace PL_Console
 
         {
             Console.Clear();
-            short idItem = -1;
+            short choice = -1;
             var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
 
 
@@ -87,10 +123,47 @@ namespace PL_Console
 
             }
             table.Write();
-         
+            for (int i = 0; i < menuItems.Length; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + menuItems[i]);
+            }
+            Console.WriteLine(row1);
             try
             {
-                Console.Write("Chọn mã sản phẩm muốn mua hoặc ấn 0 để quay trở lại: ");
+                Console.Write("Chọn: ");
+                choice = Int16.Parse(Console.ReadLine());
+            }
+            catch (System.Exception)
+            {
+
+            }
+            if (choice < 0 || choice > menuItems.Length)
+            {
+                do
+                {
+                    try
+                    {
+                        Console.Write("#Bạn nhập sai vui lòng nhập lại: ");
+                        choice = Int16.Parse(Console.ReadLine());
+                    }
+                    catch (System.Exception)
+                    {
+                        continue;
+                    }
+                } while (choice < 0 || choice > menuItems.Length);
+            }
+            return choice;
+
+        }
+        public static short SelectAnItem(List<Item> items)
+
+        {
+
+            short idItem = -1;
+
+            try
+            {
+                Console.Write("Chọn mã sản phẩm: ");
                 idItem = Int16.Parse(Console.ReadLine());
             }
             catch (System.Exception)
@@ -119,7 +192,7 @@ namespace PL_Console
 
         // {
         //     Console.Clear();
-            
+
         //     var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
 
 
@@ -129,8 +202,8 @@ namespace PL_Console
 
         //     }
         //     table.Write();
-         
-         
+
+
 
         // }
         public static string OnlyYN(string printcl)

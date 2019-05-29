@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using Persistence.MODEL;
 using System.Collections.Generic;
+using DAL;
 namespace BL.Test
 {
     public class OrderUnitTest
@@ -12,24 +13,34 @@ namespace BL.Test
 
 
         {
+            UserDAL userDAL = new UserDAL();
             Order order = new Order();
-            Item item = new Item();
-            Item item1 = new Item();
             order.OrderUser = new User();
+            order.OrderItem = new Item();
+
+            order.OrderStatus = 0;
             order.OrderUser.UserId = 1;
-
-            item.ItemId = 2;
-            item1.ItemId = 3;
-
-            order.OrderStatus = 1;
-            order.ListItems = new List<Item>();
-        
-
-            order.ListItems.Add(item);
+            order.OrderItem.ItemId = 2;
+            Assert.True(orderBL.CreateShoppingCart(order));
+            userDAL.UpdateStatusShoppingCartById(false, order.OrderUser.UserId); 
 
             Assert.True(orderBL.CreateShoppingCart(order));
         }
-        
+         [Fact]
+        public void ShowShopingCartByUserIdTest()
+        {
+            Assert.NotNull(orderBL.ShowShopingCartByUserId(1));
+        }
+        [Fact]
+        public void ShowShopingCartByUserIdTest1()
+        {
+            Assert.Null(orderBL.ShowShopingCartByUserId(null));
+        }
+         [Fact]
+        public void ShowOrderByUserIdTest1()
+        {
+            Assert.Null(orderBL.ShowOrderByUserId(null));
+        }
         // [Theory]
         // [InlineData(1)]
 

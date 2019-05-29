@@ -6,92 +6,107 @@ namespace DAL
 {
     public class ItemDAL
     {
-        private MySqlConnection connection;
+        
         private MySqlDataReader reader;
         private string query;
-        public ItemDAL()
+        public ItemDAL(){}
+        public List<Item> GetListItems()
         {
-            connection = DbHelper.OpenConnection();
-        }
+            DbHelper.OpenConnection();
+            query = @"select * from items limit 10;";
+            List<Item> items = new List<Item>();
+           reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            while (reader.Read())
+            {
+                items.Add(GetItem(reader));
+            }
+            reader.Close();
+            DbHelper.CloseConnection();
 
-        public List<Item> GetListsItems()
-        {
-            if (connection == null)
-            {
-                connection = DbHelper.OpenConnection();
-            }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-            query = "select * from items limit 10;";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            List<Item> items = null;
-            using (reader = command.ExecuteReader())
-            {
-                items = new List<Item>();
-                while (reader.Read())
-                {
-                    items.Add(GetItem(reader));
-                }
-            }
-            connection.Close();
             return items;
         }
-        public List<Item> GetListsItems(int numberPage)
+        public List<Item> SearchItemName()
         {
-            if (connection == null)
+            query = @"select * from items;";
+            List<Item> items = new List<Item>();
+            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            while (reader.Read())
             {
-                connection = DbHelper.OpenConnection();
+                items.Add(GetItem(reader));
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-            int page = numberPage + 2;
-            query = $@"select * from items where itemId between {numberPage + 1} and {page};";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            List<Item> items = null;
-            using (reader = command.ExecuteReader())
-            {
-                items = new List<Item>();
-                while (reader.Read())
-                {
-                    items.Add(GetItem(reader));
-                }
-            }
-            connection.Close();
+            reader.Close();
+            DbHelper.CloseConnection();
+
             return items;
         }
-        public Item GetAnItem(int? itemId)
+        // public List<Item> GetListsItems(int numberPage)
+        // {
+        //     if (connection == null)
+        //     {
+        //         connection = DbHelper.OpenConnection();
+        //     }
+        //     if (connection.State == System.Data.ConnectionState.Closed)
+        //     {
+        //         connection.Open();
+        //     }
+        //     int page = numberPage + 2;
+        //     query = $@"select * from items where itemId between {numberPage + 1} and {page};";
+        //     MySqlCommand command = new MySqlCommand(query, connection);
+        //     List<Item> items = null;
+        //     using (reader = command.ExecuteReader())
+        //     {
+        //         items = new List<Item>();
+        //         while (reader.Read())
+        //         {
+        //             items.Add(GetItem(reader));
+        //         }
+        //     }
+        //     connection.Close();
+        //     return items;
+        // }
+        public Item GetAnItemById(int? itemId)
         {
             if (itemId == null)
             {
                 return null;
             }
-            if (connection == null)
-            {
-                connection = DbHelper.OpenConnection();
-            }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection.Open();
-            }
+            DbHelper.OpenConnection();
             query = $"select * from items where itemId = {itemId}";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            Item item = null;
-            using (reader = command.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    item = GetItem(reader);
-                }
 
+           reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            Item item = null;
+            if (reader.Read())
+            {
+                item = GetItem(reader);
             }
-            connection.Close();
+            reader.Close();
+            DbHelper.CloseConnection();
             return item;
         }
-        
+        public List<Item> SearchITem(int temp)
+        {
+
+            DbHelper.OpenConnection();
+            switch (temp)
+            {
+                case 1:
+                    query = $"select * from items where itemId = ";
+                    break;
+            }
+
+
+            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            List<Item> items = new List<Item>();
+            while (reader.Read())
+            {
+                items.Add(GetItem(reader));
+            }
+            reader.Close();
+            DbHelper.CloseConnection();
+            return items;
+        }
+
+
         private Item GetItem(MySqlDataReader reader)
         {
             Item item = new Item();

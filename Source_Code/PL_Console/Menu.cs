@@ -8,7 +8,7 @@ namespace PL_Console
 {
     public class Menu
     {
-        public void MenuChoice()
+        public void Program()
         {
             while (true)
             {
@@ -26,7 +26,6 @@ namespace PL_Console
                         break;
                 }
             }
-
 
         }
         public void MenuLogin()
@@ -58,7 +57,7 @@ namespace PL_Console
                         case "Y":
                             continue;
                         case "N":
-                            MenuChoice();
+                            Program();
                             break;
                         default:
                             continue;
@@ -66,7 +65,7 @@ namespace PL_Console
                 }
                 try
                 {
-                    user = userBL.Login(username, password);
+                    user = userBL.GetUserByUserNameAndPassWord(username, password);
                 }
                 catch (System.Exception e)
                 {
@@ -83,7 +82,7 @@ namespace PL_Console
                         case "Y":
                             continue;
                         case "N":
-                            MenuChoice();
+                            Program();
                             break;
                         default:
                             continue;

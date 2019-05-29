@@ -7,15 +7,13 @@ namespace DAL
 
     public class UserDAL
     {
-        private MySqlConnection connection;
+        
         private MySqlDataReader reader;
         private string query;
-        public UserDAL()
-        {
-            connection = DbHelper.OpenConnection();
 
-        }
-        public User Login(string username, string password)
+        public UserDAL(){}
+
+        public User GetUserByUserNameAndPassWord(string username, string password)
         {
 
             if ((username == null) || (password == null))
@@ -27,41 +25,58 @@ namespace DAL
             MatchCollection matchCollectionPassword = regex.Matches(password);
             if (matchCollectionUserName.Count < username.Length || matchCollectionPassword.Count < password.Length)
             {
+                
                 return null;
             }
-
-            if (connection == null)
-            {
-                connection = DbHelper.OpenConnection();
-            }
-            try
-            {
-                if (connection.State == System.Data.ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-            }
-            catch (System.Exception)
-            {
-                return null;
-
-            }
-
-            User user = null;
             query = $@"select * from Users where userAccount = '{username}' and userPassword = '{password}'";
-
-            MySqlCommand command = new MySqlCommand(query, connection);
-
-            using (reader = command.ExecuteReader())
+            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            User user = null;
+            if (reader.Read())
             {
-                if (reader.Read())
-                {
-                    user = GetUser(reader);
-                }
+                user = GetUser(reader);
             }
-
-            connection.Close();
+            reader.Close();
+            DbHelper.CloseConnection();
             return user;
+        }
+        public User GetUserById(int? userId)
+        {
+            if (userId == null)
+            {
+                return null;
+            }
+            query = $@"select * from  Users  where userId = {userId};";
+            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            User user = null;
+
+            if (reader.Read())
+            {
+                user = GetUser(reader);
+            }
+            reader.Close();
+            DbHelper.CloseConnection();
+            return user;
+        }
+        public bool UpdateStatusShoppingCartById(bool isHave, int? userId)
+        {
+           
+            if (userId == null)
+            {
+                return false;
+            }
+            switch (isHave)
+            {
+                case true:
+                    query = $@"update Users set userShoppingCart = false where userId = {userId}";
+                    break;
+                case false:
+                    query = $@"update Users set userShoppingCart = true where userId = {userId}";
+                    break;
+            }
+           
+            DbHelper.ExecNonQuery(query, DbHelper.OpenConnection());
+            DbHelper.CloseConnection();
+            return true;
         }
         private User GetUser(MySqlDataReader reader)
         {

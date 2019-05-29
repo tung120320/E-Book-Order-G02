@@ -5,29 +5,42 @@ namespace DAL.Test
 {
     public class ItemUnitTest
     {
+
         ItemDAL itemDal = new ItemDAL();
         [Fact]
-        public void GetItems()
+        public void GetListItemsTest()
         {
-            Assert.NotNull(itemDal.GetListsItems());
-        }
-        [Fact]
-        public void GetAnItem()
-        {
-            Assert.NotNull(itemDal.GetAnItem(1));
-
-        }
-        [Fact]
-        public void GetAnItem1()
-        {
-            Assert.Null(itemDal.GetAnItem(0));
+            Assert.NotNull(itemDal.GetListItems());
         }
 
-        [Fact]
-        public void GetAnItem2()
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetAnItemByIdTest(int? itemId)
         {
-            Assert.Null(itemDal.GetAnItem(null));
+            Assert.NotNull(itemDal.GetAnItemById(itemId));
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(null)]
+        public void GetAnItemByIdTest1(int? itemId)
+        {
+            Assert.Null(itemDal.GetAnItemById(itemId));
+        }
+        // [Fact]
+        // public void GetAnItemById()
+        // {
+        //     Assert.NotNull(itemDal.GetAnItemById(1));
+        // }
+        // [Theory]
+        // [InlineData(0)]
+        // [InlineData(null)]
+        // public void GetAnItemById1(int? itemID)
+        // {
+        //     Assert.Null(itemDal.GetAnItemById(itemID));
+        // }
+
 
     }
 }

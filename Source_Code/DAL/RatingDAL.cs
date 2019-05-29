@@ -6,39 +6,61 @@ namespace DAL
 {
     public class RatingDAL
     {
-        private MySqlConnection connection;
         private MySqlDataReader reader;
         private string query;
-        public RatingDAL()
-        {
-            connection = DbHelper.OpenConnection();
-        }
 
-        public bool Rating(Rating rate)
-        {
+        public RatingDAL() { }
 
-            if (rate == null)
+        public bool RateItem(Rating rating)
+        {
+            if (rating == null)
             {
                 return false;
             }
-            if (connection == null)
+
+            query = $@"insert into Ratings values
+            ({rating.ItemId},{rating.UserId},'{rating.RatingStars}','{rating.RatingTitle}','{rating.RatingContent}',NOW());";
+            try
             {
-                connection = DbHelper.OpenConnection();
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             }
-            if (connection.State == System.Data.ConnectionState.Closed)
+            catch (System.Exception)
             {
-                connection = DbHelper.OpenConnection();
+
+                return false;
             }
-            MySqlCommand command = connection.CreateCommand();
-            command.CommandText = $@"insert into Ratings values(@itemId,@userId,@ratingStart,@ratingTitle,@ratingContent,@ratingDate)";
-            command.Parameters.AddWithValue("@itemId", rate.ItemId);
-            command.Parameters.AddWithValue("@userId", rate.UserId);
-            command.Parameters.AddWithValue("@ratingStart", rate.RatingStart);
-            command.Parameters.AddWithValue("@ratingTitle", rate.RatingTitle);
-            command.Parameters.AddWithValue("@ratingContent", rate.RatingContent);
-            command.Parameters.AddWithValue("@ratingDate", rate.RatingDate);
-            command.ExecuteNonQuery();
-            connection.Close();
+            finally
+            {
+                DbHelper.CloseConnection();
+            }
+
+            return true;
+        }
+        public bool UpdateRateItem(Rating rating)
+        {
+            if (rating == null)
+            {
+                return false;
+            }
+           
+            query = $@"UPDATE Ratings 
+            SET ratingStars = {rating.RatingStars}, ratingTitle = '{rating.RatingTitle}', ratingContent = '{rating.RatingContent}', ratingDate = NOW()
+             WHERE itemID = {rating.ItemId} and userID = {rating.UserId};";
+
+            try
+            {
+                DbHelper.ExecNonQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                
+                return false;
+            }
+            finally
+            {
+                DbHelper.CloseConnection();
+            }
+
             return true;
         }
         public List<Rating> GetAllRating(int? itemId)
@@ -47,25 +69,16 @@ namespace DAL
             {
                 return null;
             }
-            if (connection == null)
-            {
-                connection = DbHelper.OpenConnection();
-            }
-            if (connection.State == System.Data.ConnectionState.Closed)
-            {
-                connection = DbHelper.OpenConnection();
-            }
+
             query = $@"select * from ratings where itemId = {itemId}";
-            MySqlCommand command = new MySqlCommand(query, connection);
-            List<Rating> listRatings = null;
-            using (reader = command.ExecuteReader())
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            List<Rating> listRatings = new List<Rating>();
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    listRatings.Add(GetRating());
-                }
+                listRatings.Add(GetRating());
             }
-            connection.Close();
+
+            DbHelper.CloseConnection();
             return listRatings;
         }
         private Rating GetRating()
@@ -73,7 +86,7 @@ namespace DAL
             Rating rating = new Rating();
             rating.ItemId = reader.GetInt32("itemId");
             rating.UserId = reader.GetInt32("userId");
-            rating.RatingStart = reader.GetInt32("ratingStart");
+            rating.RatingStars = reader.GetInt32("ratingStars");
             rating.RatingTitle = reader.GetString("ratingTitle");
             rating.RatingContent = reader.GetString("ratingContent");
             rating.RatingDate = reader.GetDateTime("ratingDate");
