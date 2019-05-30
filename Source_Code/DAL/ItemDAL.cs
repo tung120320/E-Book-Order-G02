@@ -13,9 +13,9 @@ namespace DAL
         public List<Item> GetListItems()
         {
             DbHelper.OpenConnection();
-            query = @"select * from items limit 10;";
+            query = @"select * from items;";
             List<Item> items = new List<Item>();
-           reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
             while (reader.Read())
             {
                 items.Add(GetItem(reader));
@@ -112,7 +112,7 @@ namespace DAL
             Item item = new Item();
             item.ItemId = reader.GetInt32("itemId");
             item.ItemName = reader.GetString("itemName");
-            item.ItemPrice = reader.GetDouble("itemPrice");
+            item.ItemPrice = reader.GetDecimal("itemPrice");
             item.ItemAuthor = reader.GetString("itemAuthor");
             item.ItemCategory = reader.GetString("itemCategory");
             item.ItemDescription = reader.GetString("itemDescription");

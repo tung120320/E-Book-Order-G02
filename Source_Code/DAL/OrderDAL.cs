@@ -317,7 +317,7 @@ namespace DAL
             Item item = new Item();
             item.ItemId = reader.GetInt32("itemId");
             item.ItemName = reader.GetString("itemName");
-            item.ItemPrice = reader.GetDouble("itemPrice");
+            item.ItemPrice = reader.GetDecimal("itemPrice");
             return item;
         }
         private Order GetOrder(MySqlDataReader reader)

@@ -236,7 +236,7 @@ namespace PL_Console
             Console.Clear();
             RatingBL ratingBL = new RatingBL();
             Rating rating = new Rating();
-        
+
             rating.ItemId = item.ItemId;
             rating.UserId = user.UserId;
             Console.Write("Nhập số sao ");
@@ -382,7 +382,7 @@ namespace PL_Console
                 var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách");
                 foreach (var item in shoppingCart)
                 {
-                    total += item.ItemPrice;
+                    total = total + (double)item.ItemPrice;
                     table.AddRow(item.ItemId, item.ItemName, item.ItemPrice);
                 }
                 table.Write();
