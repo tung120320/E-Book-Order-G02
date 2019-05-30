@@ -382,11 +382,11 @@ namespace PL_Console
                 var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách");
                 foreach (var item in shoppingCart)
                 {
-                    total = total + (double)item.ItemPrice;
-                    table.AddRow(item.ItemId, item.ItemName, item.ItemPrice);
+                    total = total + (double) item.ItemPrice;
+                    table.AddRow(item.ItemId, item.ItemName, item.ItemPrice + " VNĐ");
                 }
                 table.Write();
-                Console.WriteLine("Tổng tiền: {0}", total);
+                Console.WriteLine("Tổng tiền: {0} VNĐ", total);
                 string[] choice = { "Thanh toán", "Xóa tất cả khỏi giỏ hàng", "Quay lại" };
                 short choose = Utility.MenuDetail("Menu", choice);
                 switch (choose)

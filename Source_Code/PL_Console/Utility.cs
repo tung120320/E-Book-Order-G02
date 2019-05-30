@@ -119,7 +119,7 @@ namespace PL_Console
 
             foreach (Item item in items)
             {
-                table.AddRow(item.ItemId, item.ItemName, item.ItemPrice, item.ItemAuthor, item.ItemCategory);
+                table.AddRow(item.ItemId, item.ItemName, item.ItemPrice + " VNĐ", item.ItemAuthor, item.ItemCategory);
 
             }
             table.Write();
