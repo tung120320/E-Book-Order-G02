@@ -7,14 +7,11 @@ namespace BL.Test
     public class ItemUnitTest
     {
         private ItemBl itemBl = new ItemBl();
-    
-       
-      [Fact]
+        [Fact]
         public void GetListItemsTest()
         {
             Assert.NotNull(itemBl.GetListItems());
         }
-
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -22,7 +19,6 @@ namespace BL.Test
         {
             Assert.NotNull(itemBl.GetAnItemById(itemId));
         }
-
         [Theory]
         [InlineData(0)]
         [InlineData(null)]
@@ -30,6 +26,6 @@ namespace BL.Test
         {
             Assert.Null(itemBl.GetAnItemById(itemId));
         }
-       
+
     }
 }

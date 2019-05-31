@@ -15,7 +15,7 @@ create table if not exists Users(
 insert into Users(userAccount,userPassword,userName,userEmail,userIdCardNo,userBalance)
 values 
 ('tung','thanh','Nguyễn Thanh Tùng','tung120320@gmail.com','142953173','10000'),
-('abc','123','ghi','ghi@gmail.com','465785762','2000000'),
+('abc','123','ghi','ghi@gmail.com','465785762','10000'),
 ('1','1','nga','nga@gmail.com','439540524','5000'),
 ('tung1','123','dfg','dfg@gmail.com','843755762','1000'),
 ('hihi','haha','ghgshe','ghgshe@gmail.com','49372898','0');
@@ -58,7 +58,7 @@ values
 ('360 Động Từ Bất Quy Tắc','13.000','Thanh Hà','Tiếng Anh','Việc học cách sử dụng và cách chia động từ trong tiếng anh là một thử thách nhưng cũng là một điều thú vị. Ngoài các động từ có quy tắc - với dạng quá khứ và quá khứ phân từ - có cách biến đổi đơn giản là thêm “d” hoặc “ed” vào sau động từ, ta còn có các động từ bất quy tắc gồm 360 động từ thông dụng nhất.  Các động từ được sắp xếp theo thứ tự alphabet và có phiên âm rõ ràng. Các bạn có thể sử dụng để học hoặc tra cứu khi cần.Phần 2 cuốn sách là công thức và cách sử dụng của các thì trong tiếng anh. Phần ý nghĩa của từng thì  được tóm tắt một cách đầy đủ và súc tích nhất để thuận lợi cho việc học tập của các bạn.','239367882','2017-06-8','Nhà Xuất Bản Thế Giới','English','108'),
 ('Phân Loại & Phương Pháp Giải Toán Tích Phân','32.200','Nhiều Tác Giả','Toán học','Tích phân - phương pháp tính tích phân của các hàm số là một trong những nội dung quan trọng trong chương trình toán lớp 12. Phân Loại & Phương Pháp Giải Toán Tích Phân được biên soạn nhằm cung cấp cho học sinh phương pháp giải toán tích phân.Nội dung sách bám sát theo sách giáo khoa mới, chương trình chuẩn và chương trình nâng cao. Nội dung mỗi bài gồm các phần sau:A. Kiến thức cơ bảnB.Phân loại và phương pháp giải các dạng toán.- Phương pháp giải- Bài tập mẫu- Bài tập đề nghị gồm bài tập tự luận và bài tập trắc nghiệm khách quan.Các bài tập trong tập sach này được các tác giả chọn lọc kĩ lưỡng, có tính điển hình. Với các lời giải rõ ràng, dễ hiểu giúp các em học sinh tiếp cận và rèn luyện kĩ năng và phương pháp giải toán tích phân để chuẩn bị tốt cho kì thi học kì, thi tốt nghiệp tuyển sinh vào đại học - cao đẳng.','248653446','2013-02-23','Nhà Xuất Bản Đại Học Quốc Gia Hà Nội','Tiếng Việt','312'),
 ('ĐẠI VIỆT SỬ KÝ TOÀN THƯ','448.500','Nhiều tác giả','Lịch sử','Đại Việt sử ký toàn thư là di sản mẫu mực được xem như là chính sử của dân tộc Việt Nam, bộ "sử cái" để đời sau tham khảo đối chiếu, được các nhà sử học nổi tiếng như Lê Văn Hưu, Phan Phu Tiên, Ngô Sĩ Liên, Phạm Công Trứ, Lê Hy... biên soạn. Bản in này sử dụng bản dịch dựa trên bản Nội các quan bản (1697) được phát hành trọn vẹn vào năm 1998 do Ngô Đức Thọ và Hoàng Văn Lâu, các nhà Hán học hàng đầu Việt Nam biên dịch. Mộc bản chữ Hán cũng được tái dựng và in toàn văn. Ngoài ra, sách còn có một số thông tin chú thích về địa danh theo các đơn vị hành chính hiện tại. Bản tra cứu được biên tập và bổ sung đầy đủ, chính xác hơn. Đó là tổng quan về giá trị cuốn sách, nhưng có lẽ phần hình thức mới là điểm khiến người đọc ngưỡng mộ. Đương nhiên có thể xuất bản khổ nhỏ, nhiều tập để dễ dàng phổ biến đến đại đa số độc giả, nhưng một ấn bản bìa cứng, khổ lớn, in ấn và thiết kế đẹp trang trọng thế này cũng là cần thiết để lưu truyền một bộ sử giá trị, dù phần nhiều người Việt Nam ngày nay không còn có thể đọc được văn bản cổ chữ Hán nữa, nhưng việc in vào sách và đặt vào kệ sách từng nhà như một lời hứa không quên cội nguồn dân tộc. Mong Fahasa luôn cung cấp hàng cuốn này thường xuyên.','896751674','2017-04-30','Nhà Xuất bản Văn Học','Tiếng Việt','1263'),
-(' Dư Địa Chí ','500.000','Nhiều tác giả','Địa lí','tổng Tập Dư Địa Chí Việt Nam là công trình sưu tầm, nghiên cứu, tuyển chọn và giới thiệu nhiều tài liệu quý mang tính tiêu biểu của các tác giả danh tiếng trong lịch sử văn học Việt Nam xưa và nay như :Nguyễn Trãi, Lê Quý Đôn, Phan Huy Chú, Lê Tắc, Ngô Văn Triện, Trương Vĩnh Ký, Vương Duy Trinh, Ngô Vi Liễn, Đào Duy Anh... đồng thời tuyển chọn và giới thiệu nhiều tài liệu liên quan của Quốc sử quán triều Nguyễn. Tất cả gồm 40 tác phẩm tiêu biểu trên địa hạt nghiên cứu địa chí của Việt Nam từ thời Trần vào thế kỷ 13 đến thời hiện đại vào giữa thế kỷ 20.','486652973','1435-09-01','Văn hóa Thông tin','Tiếng Việt','6800'),
+('Dư Địa Chí','500.000','Nhiều tác giả','Địa lí','tổng Tập Dư Địa Chí Việt Nam là công trình sưu tầm, nghiên cứu, tuyển chọn và giới thiệu nhiều tài liệu quý mang tính tiêu biểu của các tác giả danh tiếng trong lịch sử văn học Việt Nam xưa và nay như :Nguyễn Trãi, Lê Quý Đôn, Phan Huy Chú, Lê Tắc, Ngô Văn Triện, Trương Vĩnh Ký, Vương Duy Trinh, Ngô Vi Liễn, Đào Duy Anh... đồng thời tuyển chọn và giới thiệu nhiều tài liệu liên quan của Quốc sử quán triều Nguyễn. Tất cả gồm 40 tác phẩm tiêu biểu trên địa hạt nghiên cứu địa chí của Việt Nam từ thời Trần vào thế kỷ 13 đến thời hiện đại vào giữa thế kỷ 20.','486652973','1435-09-01','Văn hóa Thông tin','Tiếng Việt','6800'),
 ('Combo Phương Pháp Học Nhanh Hóa Học Thpt Quốc Gia','152.900','Lục Trần,Hạnh Chu','Hóa học','Kì thi đại học yêu cầu lượng kiến thức khổng lồ, đòi hỏi các bạn học sinh lớp 12 không chỉ nắm CHẮC mà còn phải nắm ĐỦ kiến thức. Vì vậy, làm thế nào ôn tập trong mấy tháng ngắn ngủi để có thể nắm trọn được kiến thức là vấn đề cấp thiết đặt ra cho các sĩ tử trước kì thi Quốc Gia. Hiểu được khó khăn của các em, Megabook cho ra đời Phương Pháp Học Nhanh Hóa Học THPT Quốc Gia (Hóa học vô cơ và Hóa học hữu cơ)','782593626','2019-01-18','Nhà Xuất Bản Đại Học Quốc Gia Hà Nội','Tiếng Việt','267'),
 ('Bates` Guide to Physical Examination and History Taking','1664.000','Lynn S.Bickley','Vật lý','Bates’ Guide to Physical Examination and History Taking provides authoritative, step-by-step guidance on performing the patient interview and physical examination, applying clinical reasoning, shared decision-making, and other core assessment skills—all based on a firm understanding of clinical evidence.','469893419','2016-09-09',' LWW; Twelfth, North American edition','English','1064'),
 ('Clean Code: A Handbook of Agile Software Craftsmanship','897.000','Robert C. Martin','Lập trình','Even bad code can function. But if code isn’t clean, it can bring a development organization to its knees. Every year, countless hours and significant resources are lost because of poorly written code. But it doesn’t have to be that way.Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship . Martin has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code “on the fly” into a book that will instill within you the values of a software craftsman and make you a better programmer—but only if you work at it.','978016320','2008-08-11','Prentice Hall','English','464');
@@ -72,12 +72,13 @@ create table if not exists OrderDetails(
     constraint fk_OrderDetails_Items foreign key (itemId) references Items(itemId)
 );
 select orderId from orders where orderUser = 1 order by orderid desc limit 1;
+select * from orders ;
 select * from orders;
 select * from users;
 select * from orderdetails;
 select * from orders where orderUser = 1 order by orderid desc limit 1;
-select * from Orderdetails where itemId = 1;
-select max(ord.orderId), ord.orderDate, it.itemName from orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId inner join Items it on ordt.itemId = it.itemId where ord.orderUser = 1 and ord.orderStatus = 1;
+select * from Orders where orderUser = 1;
+
 select orderStatus from Orders ord inner join OrderDetails ordl on ord.orderId = ordl.orderId where orderUser = 1;
 select ord.orderId, ord.orderDate, it.itemName from orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId inner join Items it on ordt.itemId = it.itemId where ord.orderUser = 1 and ord.orderStatus = 1;
 -- insert into orders (orderUser,orderStatus) values(1,0);
@@ -86,7 +87,7 @@ select orderId from orders order by orderid desc limit 1;
 create table if not exists Ratings(
 	itemId int ,
     userId int,
-    ratingStars tinyint,
+    ratingStart tinyint,
     ratingTitle nvarchar(255),
     ratingContent text,
     ratingDate datetime,
@@ -94,9 +95,6 @@ create table if not exists Ratings(
     constraint fk_Ratings_Items foreign key(itemId) references Items(itemId),
     constraint fk_Ratings_Users foreign key(userId) references Users(userId)
     );
--- insert into Ratings values();
-select * from Ratings;
-select * from ratings where itemId = 3;
-UPDATE Ratings 
-            SET ratingStars = 2, ratingTitle = 'ok', ratingContent = 'good', ratingDate = NOW()
-             WHERE itemID = 1 and userID = 1;
+select * from items;
+
+

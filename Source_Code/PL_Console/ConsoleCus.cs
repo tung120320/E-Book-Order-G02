@@ -233,20 +233,12 @@ namespace PL_Console
 
         public void RateItem(Item item)
         {
+            
             Console.Clear();
             RatingBL ratingBL = new RatingBL();
             Rating rating = new Rating();
-
-            rating.ItemId = item.ItemId;
-            rating.UserId = user.UserId;
-            Console.Write("Nhập số sao ");
-            rating.RatingStars = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Nhập tiêu đề ");
-            rating.RatingTitle = Console.ReadLine();
-            Console.Write("Nhập nội dung ");
-            rating.RatingContent = Console.ReadLine();
-            rating.RatingDate = DateTime.Now;
-
+            rating = Utility.MenuRating(user.UserId,item.ItemId);
+           
             if (ratingBL.RateItem(rating))
             {
                 Console.WriteLine("Đánh giá thành công");
@@ -382,7 +374,7 @@ namespace PL_Console
                 var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách");
                 foreach (var item in shoppingCart)
                 {
-                    total = total + (double) item.ItemPrice;
+                    total = total + (double)item.ItemPrice;
                     table.AddRow(item.ItemId, item.ItemName, item.ItemPrice + " VNĐ");
                 }
                 table.Write();

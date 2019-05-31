@@ -53,7 +53,6 @@ namespace DAL
             }
             catch (System.Exception)
             {
-                
                 return false;
             }
             finally

@@ -4,11 +4,11 @@ using Persistence.MODEL;
 using BL;
 namespace BL.Test
 {
-    public class UnitTest1
+    public class UserUnitTest
     {
         private UserBL userBL = new UserBL();
-    
-       
+
+
         [Theory]
         [InlineData("tung", "thanh")]
         public void GetUserByUserNameAndPassWordTest(string username, string password)
@@ -37,7 +37,7 @@ namespace BL.Test
         [Theory]
         [InlineData(0)]
         [InlineData(null)]
-        
+
         public void GetUserByIdTest1(int? userId)
         {
             Assert.Null(userBL.GetUserById(userId));
