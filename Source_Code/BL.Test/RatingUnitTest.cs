@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using DAL;
+using BL;
 using Persistence.MODEL;
 using MySql.Data.MySqlClient;
 namespace DAL.Test
@@ -8,13 +8,13 @@ namespace DAL.Test
     public class RatingUnitTest
     {   
        
-        private RatingDAL ratingDAL = new RatingDAL();
+        private RatingBL ratingBL = new RatingBL();
      
         [Fact]
         public void RateItemTest()
         {
             Rating rating = new Rating(1, 2, 3, "hay", "hay qua");
-            Assert.True(ratingDAL.RateItem(rating));  
+            Assert.True(ratingBL.RateItem(rating));  
             MySqlCommand command = DbHelper.OpenConnection().CreateCommand();
             command.CommandText = $"DELETE FROM ratings where itemId = {1} and userId = {2}";
             command.ExecuteNonQuery();         
@@ -24,15 +24,15 @@ namespace DAL.Test
         public void RateItemTest1()
         {
             Rating rating = new Rating(0, 0, 3, "hay", "hay qua");
-            Assert.False(ratingDAL.RateItem(rating));
+            Assert.False(ratingBL.RateItem(rating));
         }
         [Fact]
         public void UpdateRateItemTest()
         {
             Rating rating1 = new Rating(1, 1, 3, "hay", "hay qua");
-            ratingDAL.RateItem(rating1);
+            ratingBL.RateItem(rating1);
             Rating rating = new Rating(1, 1, 2, "khong hay", "sach doc chan qua");
-            Assert.True(ratingDAL.UpdateRateItem(rating));
+            Assert.True(ratingBL.UpdateRateItem(rating));
             MySqlCommand command = DbHelper.OpenConnection().CreateCommand();
             command.CommandText = $"DELETE FROM ratings where itemId = {1} and userId = {1}";
             command.ExecuteNonQuery();
@@ -41,12 +41,12 @@ namespace DAL.Test
         public void UpdateRateItemTest1()
         {
             Rating rating = new Rating(0, 0, 1, "khong hay", "sach doc chan qua");
-            Assert.False(ratingDAL.UpdateRateItem(rating));
+            Assert.False(ratingBL.UpdateRateItem(rating));
         }
         [Fact]
         public void GetAllRatingTest()
         {
-           Assert.NotNull(ratingDAL.GetAllRating(1));
+           Assert.NotNull(ratingBL.GetAllRating(1));
         }
 
     }

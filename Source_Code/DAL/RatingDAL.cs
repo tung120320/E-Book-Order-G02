@@ -22,7 +22,7 @@ namespace DAL
             ({rating.ItemId},{rating.UserId},'{rating.RatingStars}','{rating.RatingTitle}','{rating.RatingContent}',NOW());";
             try
             {
-                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+                DbHelper.ExecNonQuery(query, DbHelper.OpenConnection());
             }
             catch (System.Exception)
             {
@@ -32,6 +32,7 @@ namespace DAL
             finally
             {
                 DbHelper.CloseConnection();
+
             }
 
             return true;
@@ -42,14 +43,18 @@ namespace DAL
             {
                 return false;
             }
-           
+
             query = $@"UPDATE Ratings 
             SET ratingStars = {rating.RatingStars}, ratingTitle = '{rating.RatingTitle}', ratingContent = '{rating.RatingContent}', ratingDate = NOW()
-             WHERE itemID = {rating.ItemId} and userID = {rating.UserId};";
+            WHERE itemID = {rating.ItemId} and userID = {rating.UserId};";
 
             try
             {
-                DbHelper.ExecNonQuery(query, DbHelper.OpenConnection());
+                int numberEffect = DbHelper.ExecNonQuery(query, DbHelper.OpenConnection());
+                if (numberEffect == 0)
+                {
+                    return false;
+                }
             }
             catch (System.Exception)
             {

@@ -97,3 +97,11 @@ create table if not exists Ratings(
 -- insert into Ratings values();
 select * from Ratings;
 select * from ratings where itemId = 3;
+use EBooksStore;
+create user if not exists 'customer'@'localhost' identified by 'cus12345';
+grant all on users to 'customer'@'localhost';
+grant all on items to 'customer'@'localhost';
+grant all on orders to 'customer'@'localhost';
+grant all on orderdetails to 'customer'@'localhost';
+grant all on ratings to 'customer'@'localhost';
+grant lock tables on EBooksStore.* to 'customer'@'localhost';
