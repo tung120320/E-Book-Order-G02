@@ -8,7 +8,7 @@ namespace DAL
     public class DbHelper
     {
         
-    private static MySqlConnection connection;
+    private static MySqlConnection connection = null;
         public static MySqlConnection OpenConnection()
         {
             try

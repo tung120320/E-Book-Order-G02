@@ -6,7 +6,7 @@ namespace DAL
 {
     public class OrderDAL
     {
-
+        
         private MySqlDataReader reader;
         private string query;
         public OrderDAL() { }
@@ -309,6 +309,7 @@ namespace DAL
             {
                 order = GetOrder(reader);
             }
+            reader.Close();
             DbHelper.CloseConnection();
             return order;
         }
