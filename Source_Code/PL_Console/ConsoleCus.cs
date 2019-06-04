@@ -71,6 +71,8 @@ namespace PL_Console
                         continue;
                     case 2:
                         Console.Write("Nhập tên sản phẩm ");
+                        Console.InputEncoding = Encoding.Unicode;
+                        Console.OutputEncoding = Encoding.Unicode;
                         string itemName = Console.ReadLine();
                         items = itemBl.SearchItemName(itemName);
                         continue;

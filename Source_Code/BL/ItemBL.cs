@@ -16,31 +16,25 @@ namespace BL
 
         public List<Item> GetListItems()
         {
-          
+
             return itemDAL.GetListItems();
         }
         public List<Item> SearchItemName(string itemName)
         {
+            itemName = itemName.ToLower();
+            Console.WriteLine(itemName);
             List<Item> items = new List<Item>();
-            List<Item> news = new List<Item>();
+            List<Item> newitems = new List<Item>();
             items = itemDAL.SearchItemName();
-            int ok = 0;
+
             foreach (var item in items)
             {
-                for (int i = 0; i < item.ItemName.Length; i++)
+                if (item.ItemName.ToLower().Contains(itemName))
                 {
-                    for (int j = 0; j < itemName.Length; j++)
-                    {
-                        if(item.ItemName[i] == itemName[j]){
-                            ok++;
-                        }
-                    }
-                }
-                if(ok >= 5){
-                    news.Add(item);
+                    newitems.Add(item);
                 }
             }
-            return news;
+            return newitems;
         }
         // public List<Item> GetListsItems(int numberPage)
         // {
