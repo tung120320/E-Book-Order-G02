@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using ConsoleTables;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Globalization;
+
 namespace PL_Console
 {
     public class ConsoleCus
@@ -178,10 +180,11 @@ namespace PL_Console
             while (true)
             {
                 Console.Clear();
+                Console.Clear();
                 Item item = new Item();
                 item = itemBl.GetAnItemById(idItem);
                 var table = new ConsoleTable("Tên", Convert.ToString(item.ItemName));
-                table.AddRow("Giá:", Convert.ToString(item.ItemPrice));
+                table.AddRow("Giá:", FormatCurrency(item.ItemPrice));
                 table.AddRow("Tác giả:", item.ItemAuthor);
                 table.AddRow("Danh mục:", item.ItemCategory);
                 table.AddRow("ISBN:", item.ItemISBN);
@@ -194,27 +197,50 @@ namespace PL_Console
                 WriteLineWordWrap(item.ItemDescription);
                 Console.WriteLine();
 
-
-
-                string[] choice = { "Thêm vào giỏ hàng", "Xóa khỏi giỏ hàng", "Đánh giá sản phẩm", "Xem tất cả đánh giá", "Quay lại" };
-                short choose = Utility.MenuDetail("Menu", choice);
-                switch (choose)
+                OrderBl orderBL = new OrderBl();
+                if (item.ItemId != orderBL.CheckItemPurchase(item.ItemId, user.UserId))
                 {
-                    case 1:
-                        AddToCart(item);
-                        continue;
-                    case 2:
-                        DeleteItemFromSPC(item);
-                        continue;
-                    case 3:
-                        RateItem(item);
-                        continue;
-                    case 4:
-                        ShowAllRating(item);
-                        continue;
-                    case 5:
-                        break;
+                    string[] choice = { "Thêm vào giỏ hàng", "Xóa khỏi giỏ hàng", "Đánh giá sản phẩm", "Xem tất cả đánh giá", "Quay lại" };
+                    short choose = Utility.MenuDetail("Menu", choice);
+                    switch (choose)
+                    {
+                        case 1:
+                            AddToCart(item);
+                            continue;
+                        case 2:
+                            DeleteItemFromSPC(item);
+                            continue;
+                        case 3:
+                            RateItem(item);
+                            continue;
+                        case 4:
+                            ShowAllRating(item);
+                            continue;
+                        case 5:
+                            break;
+                    }
                 }
+                else
+                {
+                    string[] choice = { "Đánh giá sản phẩm", "Xem tất cả đánh giá", "Quay lại" };
+                    short choose = Utility.MenuDetail("Menu", choice);
+                    switch (choose)
+                    {
+
+                        case 1:
+                            RateItem(item); DeleteItemFromSPC(item);
+                            continue;
+                        case 2:
+                            ShowAllRating(item);
+                            continue;
+                        case 3:
+
+                            break;
+
+
+                    }
+                }
+
                 break;
             }
 
@@ -233,12 +259,12 @@ namespace PL_Console
 
         public void RateItem(Item item)
         {
-            
+
             Console.Clear();
             RatingBL ratingBL = new RatingBL();
             Rating rating = new Rating();
-            rating = Utility.MenuRating(user.UserId,item.ItemId);
-           
+            rating = Utility.MenuRating(user.UserId, item.ItemId);
+
             if (ratingBL.RateItem(rating))
             {
                 Console.WriteLine("Đánh giá thành công");
@@ -279,9 +305,10 @@ namespace PL_Console
                     table.AddRow("Số sao", ShowStar(rating.RatingStars));
                     table.AddRow("Tiêu đề", rating.RatingTitle);
                     table.AddRow("Nội dung", rating.RatingContent);
-                    table.Write();
-                    Console.WriteLine("====================================");
+                    table.Write(Format.Minimal);
+                    Console.WriteLine("-------------------------------------------------------------------------");
                 }
+                Console.WriteLine("Nhấn phím bất kì để tiếp tục");
                 Console.ReadKey();
             }
 
@@ -340,7 +367,7 @@ namespace PL_Console
                 }
 
             }
-
+            Console.WriteLine("Nhấn phím bất kì để tiếp tục");
             Console.ReadKey();
         }
         public void DeleteItemFromSPC(Item item)
@@ -355,54 +382,67 @@ namespace PL_Console
             {
                 Console.WriteLine("Sản phẩm chưa có trong trỏ hàng");
             }
+            Console.WriteLine("Nhấn phím bất kì để tiếp tục");
             Console.ReadKey();
         }
         public void ShopingCart()
         {
-            Console.Clear();
-            OrderBl orderBL = new OrderBl();
-            List<Item> shoppingCart = new List<Item>();
-            shoppingCart = orderBL.ShowShopingCartByUserId(user.UserId);
-            double total = 0;
-            if (shoppingCart.Count <= 0)
+            while (true)
             {
-                Console.WriteLine("Chưa có sách");
-                Console.ReadKey();
-            }
-            else
-            {
-                var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách");
-                foreach (var item in shoppingCart)
+                Console.Clear();
+                OrderBl orderBL = new OrderBl();
+                List<Item> shoppingCart = new List<Item>();
+                shoppingCart = orderBL.ShowShopingCartByUserId(user.UserId);
+                double total = 0;
+                if (shoppingCart.Count <= 0)
                 {
-                    total = total + (double)item.ItemPrice;
-                    table.AddRow(item.ItemId, item.ItemName, item.ItemPrice + " VNĐ");
+                    Console.WriteLine("Chưa có sách");
+                    Console.ReadKey();
+                    break;
                 }
-                table.Write();
-                Console.WriteLine("Tổng tiền: {0} VNĐ", total);
-                string[] choice = { "Thanh toán", "Xóa tất cả khỏi giỏ hàng", "Quay lại" };
-                short choose = Utility.MenuDetail("Menu", choice);
-                switch (choose)
+                else
                 {
-                    case 1:
-                        CreateOrder(total);
-                        break;
-                    case 2:
-                        string yorn;
-                        yorn = Utility.OnlyYN("Bạn có thực sự muốn xóa?(Y/N) ");
-                        if (yorn == "Y")
-                        {
-                            if (orderBL.DeleteAllItemInShoppingCartByUserID(user.UserId))
+                    var table = new ConsoleTable("Id sách", "Tên sách", "Giá sách");
+                    foreach (var item in shoppingCart)
+                    {
+                        total = total + (double)item.ItemPrice;
+                        table.AddRow(item.ItemId, item.ItemName, FormatCurrency(item.ItemPrice));
+                    }
+                    table.Write();
+                    Console.WriteLine("Tổng tiền: {0}", FormatCurrency(total));
+                    Console.WriteLine("Số tiền trong tài khoản của bạn: {0}", FormatCurrency(user.UserBalance));
+
+                    string[] choice = { "Thanh toán", "Xóa tất cả khỏi giỏ hàng", "Quay lại" };
+                    short choose = Utility.MenuDetail("Menu", choice);
+                    string yorn;
+                    switch (choose)
+                    {
+                        case 1:
+                            yorn = Utility.OnlyYN("Bạn có muốn thanh toán?(Y/N) ");
+                            if (yorn == "Y")
                             {
-                                Console.WriteLine("Xóa thành công");
+                                CreateOrder(total);
                             }
-                            else
+                            continue;
+                        case 2:
+
+                            yorn = Utility.OnlyYN("Bạn có thực sự muốn xóa?(Y/N) ");
+                            if (yorn == "Y")
                             {
-                                Console.WriteLine("Xóa không thành công");
+                                if (orderBL.DeleteAllItemInShoppingCartByUserID(user.UserId))
+                                {
+                                    Console.WriteLine("Xóa thành công");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Xóa không thành công");
+                                }
+
                             }
 
-                        }
-                        Console.ReadLine();
-                        break;
+                            continue;
+                    }
+                    break;
                 }
                 // string choice = Utility.OnlyYN("Bạn có muốn thanh toán? (Y/N): ");
                 // Console.WriteLine();
@@ -431,8 +471,28 @@ namespace PL_Console
                 {
                     if (orderBL.CreateOrder(order, total))
                     {
+                        Console.Clear();
                         Console.WriteLine("Mua hàng thành công");
                         userBL.UpdateStatusShoppingCartById(true, user.UserId); // set userShopping cart to 0
+
+                        List<Order> shoppingCart = new List<Order>();
+                        shoppingCart = orderBL.ShowOrderUserPaySucess(user.UserId);
+                        Console.WriteLine("HÓA ĐƠN");
+                        Console.WriteLine("MÃ ĐƠN HÀNG: {0}", shoppingCart[0].OrderId);
+                        var table = new ConsoleTable("TÊN SÁCH", "GIÁ SÁCH");
+                        foreach (var item in shoppingCart)
+                        {
+                            table.AddRow(item.OrderItem.ItemName, FormatCurrency(item.OrderItem.ItemPrice));
+                        }
+                        table.AddRow("", "");
+                        table.AddRow("TỔNG TIỀN", FormatCurrency(total));
+                        table.AddRow("NGÀY MUA", shoppingCart[0].OrderDate);
+                        table.Write();
+
+                        Console.WriteLine("CÁM ƠN QUÝ KHÁCH");
+                        Console.WriteLine("HẸN GẶP LẠI");
+
+
 
                         // Order order = null;
                         // order = orderBL.ShowOrderUserPaySucess(user.UserId);
@@ -461,6 +521,7 @@ namespace PL_Console
                 }
 
             }
+            Console.WriteLine("Nhấn phím bất kì để tiếp tục");
             Console.ReadKey();
 
         }
@@ -469,17 +530,17 @@ namespace PL_Console
             Console.Clear();
             OrderBl orderBL = new OrderBl();
             List<Order> listOrder = new List<Order>();
-            listOrder = orderBL.ShowOrderByUserId(user.UserId);
+            listOrder = orderBL.ShowAllItemOrdered(user.UserId);
             if (listOrder.Count <= 0)
             {
                 Console.WriteLine("Bạn chưa mua gì");
             }
             else
             {
-                var table = new ConsoleTable("Id order", "Tên sách", "Ngày mua");
+                var table = new ConsoleTable("Mã sách", "Tên sách","Ngày mua");
                 foreach (var item in listOrder)
                 {
-                    table.AddRow(item.OrderId, item.OrderItem.ItemName, item.OrderDate);
+                    table.AddRow(item.OrderItem.ItemId, item.OrderItem.ItemName, item.OrderDate);
                 }
                 table.Write();
             }
@@ -522,6 +583,11 @@ namespace PL_Console
                 stringStar.Append("☆  ");
             }
             return stringStar.ToString();
+        }
+        public string FormatCurrency(double price)
+        {
+            string a = string.Format(new CultureInfo("vi-VN"), "{0:#,##0} VNĐ", price);
+            return a;
         }
     }
 }

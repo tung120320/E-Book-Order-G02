@@ -6,7 +6,7 @@ namespace DAL
 {
     public class OrderDAL
     {
-        
+
         private MySqlDataReader reader;
         private string query;
         public OrderDAL() { }
@@ -272,7 +272,7 @@ namespace DAL
             return result;
 
         }
-        public List<Order> ShowOrderByUserId(int? userId)
+        public List<Order> ShowAllItemOrdered(int? userId)
         {
             if (userId == null)
             {
@@ -280,10 +280,10 @@ namespace DAL
             }
 
             List<Order> listOrders = new List<Order>();
-            query = $@"select ord.orderId, ord.orderDate, it.itemName from 
+            query = $@"select it.itemId, it.itemName, ord.orderDate from 
             orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId
-             where ord.orderUser = {userId} and ord.orderStatus = 1";
+            where ord.orderUser = {userId} and ord.orderStatus = 1 group by it.itemName";
             reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             while (reader.Read())
             {
@@ -292,7 +292,7 @@ namespace DAL
             DbHelper.CloseConnection();
             return listOrders;
         }
-        public Order ShowOrderUserPaySucess(int? userId)
+        public Order GetLastOrderIdPurchase(int? userId)
         {
             if (userId == null)
             {
@@ -300,10 +300,7 @@ namespace DAL
             }
 
             Order order = null;
-            query = $@"select max(ord.orderId) as orderId, ord.orderDate, it.itemName from 
-            orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
-            inner join Items it on ordt.itemId = it.itemId
-             where ord.orderUser = {userId} ";
+            query = $@"select max(orderId) from orders where orderUser = {userId} ";
             reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             if (reader.Read())
             {
@@ -313,20 +310,82 @@ namespace DAL
             DbHelper.CloseConnection();
             return order;
         }
+        public List<Order> ShowOrderUserPaySucess(int? userId)
+        {
+            if (userId == null)
+            {
+                return null;
+            }
+
+            List<Order> orders = new List<Order>();
+            query = $@"select ord.orderId as orderId, ord.orderDate, it.itemName, it.itemPrice from 
+            orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
+            inner join Items it on ordt.itemId = it.itemId
+             where ord.orderUser = {userId} and ord.orderId = {GetLastInsertOrderID(userId)}";
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            while (reader.Read())
+            {
+                orders.Add(GetOrderPurchaseSucess(reader));
+            }
+            reader.Close();
+            DbHelper.CloseConnection();
+            return orders;
+        }
+        public int GetLastInsertOrderID(int? userID)
+        {
+            int orderId = -1;
+
+            string queryLastInsertId = $@"select orderId from orders where orderUser = {userID} order by orderid desc limit 1;";
+            reader = DbHelper.ExecQuery(queryLastInsertId, DbHelper.OpenConnection());
+            if (reader.Read())
+            {
+                orderId = reader.GetInt32("orderId");
+
+            }
+            reader.Close();
+            return orderId;
+        }
+        public int? CheckItemPurchase(int? itemId, int? userId)
+        {
+            
+            string query = $@"select it.itemid from 
+            orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
+            inner join Items it on ordt.itemId = it.itemId
+             where it.itemId = {itemId} and ord.orderuser = {userId} and ord.orderStatus = 1 limit 1";
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            if (reader.Read())
+            {
+                itemId = reader.GetInt32("itemid");
+                
+            }else{
+                itemId = -1;
+            }
+            reader.Close();
+            return itemId;
+        }
         private Item GetItemShoppingCart(MySqlDataReader reader)
         {
             Item item = new Item();
             item.ItemId = reader.GetInt32("itemId");
             item.ItemName = reader.GetString("itemName");
-            item.ItemPrice = reader.GetDecimal("itemPrice");
+            item.ItemPrice = reader.GetDouble("itemPrice");
             return item;
         }
         private Order GetOrder(MySqlDataReader reader)
         {
-            Item item = new Item();
+            Order order = new Order();
+            order.OrderItem = new Item();
+            order.OrderItem.ItemId = reader.GetInt32("itemId");
+            order.OrderItem.ItemName = reader.GetString("itemName");
+            order.OrderDate = reader.GetDateTime("orderDate");
+            return order;
+        }
+        private Order GetOrderPurchaseSucess(MySqlDataReader reader)
+        {
             Order order = new Order();
             order.OrderItem = new Item();
             order.OrderId = reader.GetInt32("orderId");
+            order.OrderItem.ItemPrice = reader.GetDouble("itemPrice");
             order.OrderDate = reader.GetDateTime("orderDate");
             order.OrderItem.ItemName = reader.GetString("itemName");
             return order;

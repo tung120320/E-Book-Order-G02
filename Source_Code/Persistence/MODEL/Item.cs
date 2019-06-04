@@ -11,7 +11,7 @@ namespace Persistence.MODEL
 
         public int? ItemId {get;set;}
         public string ItemName {get;set;}
-        public decimal ItemPrice{get;set;}
+        public double ItemPrice{get;set;}
         public string ItemAuthor{get;set;}
         public string ItemCategory{get;set;}
         public string ItemDescription{get;set;}

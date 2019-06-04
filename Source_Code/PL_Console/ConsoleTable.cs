@@ -97,7 +97,7 @@ namespace ConsoleTables
 
             // create the string format with padding
             var format = Enumerable.Range(0, Columns.Count)
-                .Select(i => " | {" + i + "," + columnAlignment[i] + columnLengths[i] + "}")
+                .Select(i => "| {" + i + "," + columnAlignment[i] + columnLengths[i] + "}")
                 .Aggregate((s, a) => s + a) + " |";
 
             // find the longest formatted line
@@ -155,7 +155,7 @@ namespace ConsoleTables
             var results = Rows.Select(row => string.Format(format, row)).ToList();
 
             // create the divider
-            var divider = Regex.Replace(columnHeaders, @"[^|]", "-");
+            var divider = Regex.Replace(columnHeaders, @"[^|]", "");
 
             builder.AppendLine(columnHeaders);
             builder.AppendLine(divider);

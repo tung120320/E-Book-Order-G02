@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ConsoleTables;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace PL_Console
 {
@@ -95,7 +96,7 @@ namespace PL_Console
             Console.WriteLine(title);
             Console.WriteLine(row2);
 
-            string[] infoUser = { us.UserAccount, us.Username, us.UserEmail, us.UserIdCardNo.ToString(), us.UserBalance.ToString() };
+            string[] infoUser = { us.UserAccount, us.Username, us.UserEmail, us.UserIdCardNo.ToString(), FormatCurrency(us.UserBalance) };
 
             for (int i = 0; i < menuItems.Length; i++)
             {
@@ -113,13 +114,14 @@ namespace PL_Console
 
         {
             Console.Clear();
+            Console.Clear();
             short choice = -1;
             var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
 
 
             foreach (Item item in items)
             {
-                table.AddRow(item.ItemId, item.ItemName, item.ItemPrice + " VNĐ", item.ItemAuthor, item.ItemCategory);
+                table.AddRow(item.ItemId, item.ItemName, FormatCurrency(item.ItemPrice), item.ItemAuthor, item.ItemCategory);
 
             }
             table.Write();
@@ -191,146 +193,94 @@ namespace PL_Console
         public static Rating MenuRating(int? userId, int? itemId)
 
         {
-            //int yn;
-            // int ratingStars;
-            // string ratingTitle,ratingContent;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
             Rating rating = new Rating();
             rating.ItemId = itemId;
             rating.UserId = userId;
-            // Console.Write("Nhập số sao: ");
-            // rating.RatingStars = Convert.ToInt32(Console.ReadLine());
-            // while ((rating.RatingStars < 1 || rating.RatingStars > 5))
-            // {
-            //     Console.WriteLine("Số sao phải trong khoảng từ 1 -> 5,bạn có muốn nhập lại không(Y/N)");
-            //     Console.WriteLine("1.Nhập lại");
-            //     Console.WriteLine("2.Thoát");
-            //     Console.WriteLine("#Chọn: ");
-            //     yn = Convert.ToInt32(Console.ReadLine());
-            //     switch (yn)
-            //     {
-            //         case 2:
-            //             break;
-            //         case 1:
-            //             Console.Write("Mời nhập lại số sao: ");
-            //             rating.RatingStars = Convert.ToInt32(Console.ReadLine());
-            //             break;
-            //     }
-            // }
-            // Console.Write("Nhập tiêu đề: ");
-            // rating.RatingTitle = Console.ReadLine();
-            // while ((rating.RatingTitle.Length < 1 || rating.RatingTitle.Length > 20))
-            // {
-            //     Console.WriteLine("Số lượng kí tự trong tiêu đề phải trong khoảng từ 1 -> 20 ,bạn có muốn nhập lại không(Y/N)");
-            //     Console.WriteLine("1.Nhập lại");
-            //     Console.WriteLine("2.Thoát");
-            //     Console.WriteLine("#Chọn: ");
-            //     yn = Convert.ToInt32(Console.ReadLine());
-            //     switch (yn)
-            //     {
-            //         case 2:
-            //             break;
-            //         case 1:
-            //             Console.Write("Mời nhập lại tiêu đề: ");
-            //             rating.RatingTitle = Console.ReadLine();
-            //             break;
-            //     }
-            // }
-            // Console.Write("Nhập nội dung: ");
-            // rating.RatingContent = Console.ReadLine();
-            // while ((rating.RatingContent.Length < 1 || rating.RatingContent.Length > 100))
-            // {
-            //     Console.WriteLine("Số lượng kí tự trong tiêu đề phải trong khoảng từ 1 -> 100,bạn có muốn nhập lại không(Y/N)");
-            //     Console.WriteLine("1.Nhập lại");
-            //     Console.WriteLine("2.Thoát");
-            //     Console.WriteLine("#Chọn: ");
-            //     yn = Convert.ToInt32(Console.ReadLine());
-            //     switch (yn)
-            //     {
-            //         case 2:
-            //             break;
-            //         case 1:
-            //             Console.Write("Mời nhập lại nội dung: ");
-            //             rating.RatingContent = Console.ReadLine();
-            //             break;
-            //     }
-            // }
+            int ratingStars = -1;
+            string ratingTitle = string.Empty;
+            string ratingContent = string.Empty;
 
             try
             {
                 Console.Write("#Nhập số sao: ");
-                int ratingStars = Convert.ToInt32(Console.ReadLine());
-                if (ratingStars < 1 || ratingStars > 5)
-                {
-                    do
-                    {
-                        try
-                        {
-                            Console.Write("#Mời bạn nhập lại số sao: ");
-                            ratingStars = Convert.ToInt32(Console.ReadLine());
-                        }
-                        catch (System.Exception)
-                        {
-                            continue;
-                        }
-                    } while (ratingStars < 1 || ratingStars > 5);
-                }
-                rating.RatingStars = ratingStars;
+                ratingStars = Convert.ToInt32(Console.ReadLine());
             }
             catch (System.Exception)
             {
 
+            }
+            if (ratingStars < 1 || ratingStars > 5)
+            {
+                do
+                {
+                    try
+                    {
+                        Console.WriteLine("Số sao phải từ 1 đến 5: ");
+                        Console.Write("#Mời bạn nhập lại số sao: ");
+                        ratingStars = Convert.ToInt32(Console.ReadLine());
+                    }
+                    catch (System.Exception)
+                    {
+                        continue;
+                    }
+                } while (ratingStars < 1 || ratingStars > 5);
             }
             try
             {
                 Console.Write("#Nhập tiêu đề: ");
-                string ratingTitle = Console.ReadLine();
-                if (ratingTitle.Length < 1 || ratingTitle.Length > 20)
-                {
-                    do
-                    {
-                        try
-                        {
-                            Console.Write("#Mời bạn nhập lại tiêu đề: ");
-                            ratingTitle = Console.ReadLine();
-                        }
-                        catch (System.Exception)
-                        {
-                            continue;
-                        }
-                    } while (ratingTitle.Length < 1 || ratingTitle.Length > 20);
-                }
-                rating.RatingTitle = ratingTitle;
+                ratingTitle = Console.ReadLine();
+               
             }
             catch (System.Exception)
             {
-
             }
-
+            if (ratingTitle.Length < 10)
+            {
+                do
+                {
+                    try
+                    {
+                        Console.WriteLine("#Tiêu đề phải ít nhất 10 kí tự: ");
+                        Console.Write("#Mời bạn nhập lại tiêu đề: ");
+                        ratingTitle = Console.ReadLine();
+                    }
+                    catch (System.Exception)
+                    {
+                        continue;
+                    }
+                } while (ratingTitle.Length < 10);
+            }
             try
             {
                 Console.Write("#Nhập nội dung: ");
-                string ratingContent = Console.ReadLine();
-                if (ratingContent.Length < 1 || ratingContent.Length > 100)
-                {
-                    do
-                    {
-                        try
-                        {
-                            Console.Write("#Mời bạn nhập lại nội dung: ");
-                            ratingContent = Console.ReadLine();
-                        }
-                        catch (System.Exception)
-                        {
-                            
-                        }
-                    } while (ratingContent.Length < 1 || ratingContent.Length > 100);
-                }
-                rating.RatingContent = ratingContent;
+                ratingContent = Console.ReadLine();
             }
             catch (System.Exception)
             {
 
             }
+            if (ratingContent.Length < 20)
+            {
+                do
+                {
+                    try
+                    {
+                        Console.WriteLine("Nội dung phải ít nhất 20 kí tự: ");
+                        Console.Write("#Mời bạn nhập lại nội dung: ");
+                        ratingContent = Console.ReadLine();
+                    }
+                    catch (System.Exception)
+                    {
+
+                    }
+                } while (ratingContent.Length < 20);
+            }
+
+            rating.RatingStars = ratingStars;
+            rating.RatingTitle = ratingTitle;
+            rating.RatingContent = ratingContent;
 
             rating.RatingDate = DateTime.Now;
             return rating;
@@ -370,6 +320,11 @@ namespace PL_Console
             }
 
             return choice;
+        }
+        public static string FormatCurrency(double price)
+        {
+            string a = string.Format(new CultureInfo("vi-VN"), "{0:#,##0} VND", price);
+            return a;
         }
     }
 }

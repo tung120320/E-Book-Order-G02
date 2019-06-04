@@ -15,12 +15,13 @@ namespace DAL.Test
         {
             UserDAL userDAL = new UserDAL();
             Order order = new Order();
+            ItemDAL itemDAL = new ItemDAL();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
 
 
             Assert.True(orderDAL.CreateShoppingCart(order));
@@ -45,14 +46,15 @@ namespace DAL.Test
         public void AddToShoppingCartTest()
         {
             Order order = new Order();
+            ItemDAL itemDAL = new ItemDAL();
             UserDAL userDAL = new UserDAL();
             order.OrderUser = new User();
             Item item = new Item();
             order.OrderItem = new Item();
 
 
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 4;
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
 
 
             MySqlCommand command = DbHelper.OpenConnection().CreateCommand();
@@ -69,13 +71,16 @@ namespace DAL.Test
         public void AddToShoppingCartTest1()
         {
             Order order = new Order();
+            ItemDAL itemDAL = new ItemDAL();
             order.OrderUser = new User();
             Item item = new Item();
             order.OrderItem = new Item();
+            UserDAL userDAL = new UserDAL();
 
 
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 1;
+            order.OrderUser.UserId = 0;
+            order.OrderItem.ItemId = 0;
+
 
             Assert.False(orderDAL.AddToShoppingcart(order));
         }
@@ -159,13 +164,14 @@ namespace DAL.Test
         public void CreateOrderTest()
         {
             UserDAL userDAL = new UserDAL();
+            ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
             orderDAL.CreateShoppingCart(order);
 
             Assert.True(orderDAL.CreateOrder(order));
@@ -177,36 +183,38 @@ namespace DAL.Test
         public void ShowOrderByUserIdTest()
         {
             UserDAL userDAL = new UserDAL();
+            ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
             orderDAL.CreateShoppingCart(order);
             orderDAL.CreateOrder(order);
 
-            Assert.NotNull(orderDAL.ShowOrderByUserId(1));
+            Assert.NotNull(orderDAL.ShowAllItemOrdered(1));
 
             orderDAL.DeleteAllItemInShoppingCartByUserID(1);
         }
         [Fact]
         public void ShowOrderByUserIdTest1()
         {
-            Assert.Null(orderDAL.ShowOrderByUserId(null));
+            Assert.Null(orderDAL.ShowAllItemOrdered(null));
         }
         [Fact]
         public void ShowOrderUserPaySucessTest()
         {
             UserDAL userDAL = new UserDAL();
+            ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
             orderDAL.CreateShoppingCart(order);
             orderDAL.CreateOrder(order);
 

@@ -55,21 +55,39 @@ namespace BL
 
             return orderDAL.CreateOrder(order);
         }
-
-        public List<Order> ShowOrderByUserId(int? userId)
+        //for test
+        public bool CreateOrder(Order order)
         {
 
-            return orderDAL.ShowOrderByUserId(userId);
+            return orderDAL.CreateOrder(order);
         }
-        public Order ShowOrderUserPaySucess(int? userId)
+
+        public List<Order> ShowAllItemOrdered(int? userId)
         {
 
-            return orderDAL.ShowOrderUserPaySucess(userId);
+            return orderDAL.ShowAllItemOrdered(userId);
+        }
+        public List<Order> ShowOrderUserPaySucess(int? userId)
+        {
+            if(userId == null){
+                return null;
+            }
+            List<Order> listOrders = orderDAL.ShowOrderUserPaySucess(userId);
+            foreach (var item in listOrders)
+            {
+                item.OrderItem.ItemName.ToUpper();
+            }
+            return listOrders;
         }
         public bool DeleteAllItemInShoppingCartByUserID(int? userId)
         {
 
             return orderDAL.DeleteAllItemInShoppingCartByUserID(userId);
+        }
+        public int? CheckItemPurchase(int? itemId, int? userId)
+        {
+
+            return orderDAL.CheckItemPurchase(itemId, userId);
         }
     }
 }

@@ -76,8 +76,8 @@ namespace DAL.Test
             order.OrderItem = new Item();
 
 
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 1;
+            order.OrderUser.UserId = 0;
+            order.OrderItem.ItemId = 0;
 
             Assert.False(orderBL.AddToShoppingcart(order));
         }
@@ -160,60 +160,63 @@ namespace DAL.Test
         [Fact]
         public void CreateOrderTest()
         {
-            UserDAL userDAL = new UserDAL();
+             UserDAL userDAL = new UserDAL();
+            ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderUser.UserBalance = 1000;
-            order.OrderItem.ItemId = 2;
-            orderBL.CreateShoppingCart(order);
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
+            orderDAL.CreateShoppingCart(order);
 
-            Assert.True(orderBL.CreateOrder(order,1));
+            Assert.True(orderBL.CreateOrder(order));
 
             orderBL.DeleteAllItemInShoppingCartByUserID(1);
+
+           
         }
 
         [Fact]
         public void ShowOrderByUserIdTest()
         {
             UserDAL userDAL = new UserDAL();
+            ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
-            order.OrderUser.UserBalance = 1000;
+            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
             orderBL.CreateShoppingCart(order);
-            orderBL.CreateOrder(order,1);
+            orderBL.CreateOrder(order);
 
-            Assert.NotNull(orderBL.ShowOrderByUserId(1));
+            Assert.NotNull(orderBL.ShowAllItemOrdered(1));
 
             orderBL.DeleteAllItemInShoppingCartByUserID(1);
         }
         [Fact]
         public void ShowOrderByUserIdTest1()
         {
-            Assert.Null(orderBL.ShowOrderByUserId(null));
+            Assert.Null(orderBL.ShowAllItemOrdered(null));
         }
         [Fact]
         public void ShowOrderUserPaySucessTest()
         {
             UserDAL userDAL = new UserDAL();
+            ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
-             order.OrderUser.UserBalance = 1000;
+             order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderUser = userDAL.GetUserById(1);
+           
             orderBL.CreateShoppingCart(order);
-            orderBL.CreateOrder(order,1);
+            orderBL.CreateOrder(order);
 
             Assert.NotNull(orderBL.ShowOrderUserPaySucess(1));
 

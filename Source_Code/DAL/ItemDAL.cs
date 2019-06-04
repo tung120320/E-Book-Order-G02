@@ -112,7 +112,7 @@ namespace DAL
             Item item = new Item();
             item.ItemId = reader.GetInt32("itemId");
             item.ItemName = reader.GetString("itemName");
-            item.ItemPrice = reader.GetDecimal("itemPrice");
+            item.ItemPrice = reader.GetDouble("itemPrice");
             item.ItemAuthor = reader.GetString("itemAuthor");
             item.ItemCategory = reader.GetString("itemCategory");
             item.ItemDescription = reader.GetString("itemDescription");

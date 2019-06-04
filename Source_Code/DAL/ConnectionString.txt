@@ -1,2 +1,1 @@
-server=localhost;user id=customer;password=cus12345;port=3306;database=ebooksstore;SslMode=None
-
+server=localhost;user id=customer;password=cus12345;port=3306;database=ebooksstore;SslMode=None;Charset=utf8;
