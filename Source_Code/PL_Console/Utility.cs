@@ -129,6 +129,7 @@ namespace PL_Console
             {
                 Console.WriteLine((i + 1) + ". " + menuItems[i]);
             }
+
             Console.WriteLine(row1);
             try
             {
@@ -162,17 +163,26 @@ namespace PL_Console
         {
 
             short idItem = -1;
-
+            bool isHave = false;
             try
             {
                 Console.Write("Chọn mã sản phẩm: ");
+
                 idItem = Int16.Parse(Console.ReadLine());
             }
             catch (System.Exception)
             {
 
             }
-            if (idItem < 0 || idItem > items.Count)
+            foreach (var item in items)
+            {
+
+                if (idItem == item.ItemId)
+                {
+                    isHave = true;
+                }
+            }
+            if (!isHave)
             {
                 do
                 {
@@ -180,12 +190,20 @@ namespace PL_Console
                     {
                         Console.Write("#Bạn nhập sai vui lòng nhập lại: ");
                         idItem = Int16.Parse(Console.ReadLine());
+                        foreach (var item in items)
+                        {
+
+                            if (idItem == item.ItemId)
+                            {
+                                isHave = true;
+                            }
+                        }
                     }
                     catch (System.Exception)
                     {
                         continue;
                     }
-                } while (idItem < 0 || idItem > items.Count);
+                } while (!isHave);
             }
             return idItem;
 
@@ -231,7 +249,7 @@ namespace PL_Console
             {
                 Console.Write("#Nhập tiêu đề: ");
                 ratingTitle = Console.ReadLine();
-               
+
             }
             catch (System.Exception)
             {

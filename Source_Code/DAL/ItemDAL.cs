@@ -13,7 +13,7 @@ namespace DAL
         public List<Item> GetListItems()
         {
             DbHelper.OpenConnection();
-            query = @"select * from items;";
+            query = @"select * from items limit 10;";
             List<Item> items = new List<Item>();
             reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
             while (reader.Read())

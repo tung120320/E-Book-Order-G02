@@ -57,10 +57,10 @@ namespace PL_Console
         {
             List<Item> items = null;
             items = itemBl.GetListItems();
-            int? idItem;
+            
             while (true)
             {
-
+                int? idItem;
                 string[] listcol = { "Chọn sản phẩm", "Tìm kiếm", "Quay trở lại" };
                 int choice = Utility.showListItems("Danh sách sách", listcol, items);
                 switch (choice)
