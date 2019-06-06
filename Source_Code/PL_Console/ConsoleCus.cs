@@ -230,7 +230,7 @@ namespace PL_Console
                     {
 
                         case 1:
-                            RateItem(item); DeleteItemFromSPC(item);
+                            RateItem(item);
                             continue;
                         case 2:
                             ShowAllRating(item);
