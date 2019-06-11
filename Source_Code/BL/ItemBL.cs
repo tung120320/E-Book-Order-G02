@@ -36,10 +36,14 @@ namespace BL
             }
             return newitems;
         }
-        // public List<Item> GetListsItems(int numberPage)
-        // {
-        //     return itemDAL.GetListsItems(numberPage);
-        // }
+        public List<Item> PagingItems(int pageNo, int itemPerPAge)
+        {
+            return itemDAL.PagingItems(pageNo,itemPerPAge);
+        }
+        public int GetTotalPage()
+        {
+            return itemDAL.GetTotalPage();
+        }
         public Item GetAnItemById(int? itemId)
         {
             if (itemId == null)

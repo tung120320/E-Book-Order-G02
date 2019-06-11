@@ -74,7 +74,7 @@ create table if not exists OrderDetails(
 select orderId from orders where orderUser = 1 order by orderid desc limit 1;
 select * from orders;
 select * from users;
-select * from orderdetails;
+select * from orderdetails;-- 
 select * from orders where orderUser = 1 order by orderid desc limit 1;
 select * from Orderdetails where itemId = 1;
 
@@ -106,7 +106,8 @@ grant all on orders to 'customer'@'localhost';
 grant all on orderdetails to 'customer'@'localhost';
 grant all on ratings to 'customer'@'localhost';
 grant lock tables on EBooksStore.* to 'customer'@'localhost';
-select ord.orderId as orderId, ord.orderDate, it.itemName , it.itemPrice from 
-            orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
+select ord.orderId as orderId, ord.orderDate, it.itemName , it.itemPrice, us.userName, us.userEmail from 
+			users us inner join orders ord on ord.orderUser = us.userId  
+            inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId
              where ord.orderUser = 1 and ord.orderId = 2;

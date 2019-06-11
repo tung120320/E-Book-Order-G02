@@ -318,8 +318,8 @@ namespace DAL
             }
 
             List<Order> orders = new List<Order>();
-            query = $@"select ord.orderId as orderId, ord.orderDate, it.itemName, it.itemPrice from 
-            orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
+            query = $@"select ord.orderId as orderId, ord.orderDate, it.itemId ,it.itemName, it.itemPrice, us.userName, us.userEmail from 
+            users us inner join orders ord on ord.orderUser = us.userId inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId
              where ord.orderUser = {userId} and ord.orderId = {GetLastInsertOrderID(userId)}";
             reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
@@ -347,7 +347,7 @@ namespace DAL
         }
         public int? CheckItemPurchase(int? itemId, int? userId)
         {
-            
+
             string query = $@"select it.itemid from 
             orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId
@@ -356,8 +356,10 @@ namespace DAL
             if (reader.Read())
             {
                 itemId = reader.GetInt32("itemid");
-                
-            }else{
+
+            }
+            else
+            {
                 itemId = -1;
             }
             reader.Close();
@@ -384,7 +386,12 @@ namespace DAL
         {
             Order order = new Order();
             order.OrderItem = new Item();
+            order.OrderUser = new User();
             order.OrderId = reader.GetInt32("orderId");
+            order.OrderUser.Username = reader.GetString("userName");
+            order.OrderUser.UserEmail = reader.GetString("userEmail");
+            
+            order.OrderItem.ItemId = reader.GetInt32("itemId");
             order.OrderItem.ItemPrice = reader.GetDouble("itemPrice");
             order.OrderDate = reader.GetDateTime("orderDate");
             order.OrderItem.ItemName = reader.GetString("itemName");

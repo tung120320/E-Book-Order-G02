@@ -110,7 +110,7 @@ namespace PL_Console
             Console.ReadKey();
 
         }
-        public static short showListItems(string title, string[] menuItems, List<Item> items)
+        public static short showListItems(string title, string[] menuItems, List<Item> items, int currentpage)
 
         {
             Console.Clear();
@@ -125,6 +125,10 @@ namespace PL_Console
 
             }
             table.Write();
+            ItemBl itemBL = new ItemBl();
+            
+            Console.WriteLine("Trang " + currentpage + " / " + itemBL.GetTotalPage());
+            Console.WriteLine();
             for (int i = 0; i < menuItems.Length; i++)
             {
                 Console.WriteLine((i + 1) + ". " + menuItems[i]);

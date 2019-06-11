@@ -2,20 +2,21 @@ using System;
 using MySql.Data.MySqlClient;
 using Persistence.MODEL;
 using System.Collections.Generic;
+
 namespace DAL
 {
     public class ItemDAL
     {
-        
+
         private MySqlDataReader reader;
         private string query;
-        public ItemDAL(){}
+        public ItemDAL() { }
         public List<Item> GetListItems()
         {
             DbHelper.OpenConnection();
             query = @"select * from items limit 10;";
             List<Item> items = new List<Item>();
-            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             while (reader.Read())
             {
                 items.Add(GetItem(reader));
@@ -29,7 +30,7 @@ namespace DAL
         {
             query = @"select * from items;";
             List<Item> items = new List<Item>();
-            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             while (reader.Read())
             {
                 items.Add(GetItem(reader));
@@ -39,31 +40,33 @@ namespace DAL
 
             return items;
         }
-        // public List<Item> GetListsItems(int numberPage)
-        // {
-        //     if (connection == null)
-        //     {
-        //         connection = DbHelper.OpenConnection();
-        //     }
-        //     if (connection.State == System.Data.ConnectionState.Closed)
-        //     {
-        //         connection.Open();
-        //     }
-        //     int page = numberPage + 2;
-        //     query = $@"select * from items where itemId between {numberPage + 1} and {page};";
-        //     MySqlCommand command = new MySqlCommand(query, connection);
-        //     List<Item> items = null;
-        //     using (reader = command.ExecuteReader())
-        //     {
-        //         items = new List<Item>();
-        //         while (reader.Read())
-        //         {
-        //             items.Add(GetItem(reader));
-        //         }
-        //     }
-        //     connection.Close();
-        //     return items;
-        // }
+        public List<Item> PagingItems(int pageNo, int itemPerPAge)
+        {
+
+            DbHelper.OpenConnection();
+            
+            query = $@"select * from items limit {pageNo},{itemPerPAge}";
+            List<Item> items = new List<Item>();
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            while (reader.Read())
+            {
+                items.Add(GetItem(reader));
+            }
+            reader.Close();
+            DbHelper.CloseConnection();
+
+            return items;
+        }
+        public int GetTotalPage()
+        {
+
+
+            query = @"select count(*) / 10 from items;";
+            var command = new MySqlCommand(query, DbHelper.OpenConnection());
+            int count = Convert.ToInt32(command.ExecuteScalar());
+            DbHelper.CloseConnection();
+            return count;
+        }
         public Item GetAnItemById(int? itemId)
         {
             if (itemId == null)
@@ -73,7 +76,7 @@ namespace DAL
             DbHelper.OpenConnection();
             query = $"select * from items where itemId = {itemId}";
 
-           reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             Item item = null;
             if (reader.Read())
             {
@@ -95,7 +98,7 @@ namespace DAL
             }
 
 
-            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             List<Item> items = new List<Item>();
             while (reader.Read())
             {
