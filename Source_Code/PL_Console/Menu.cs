@@ -12,7 +12,7 @@ namespace PL_Console
         {
             while (true)
             {
-               
+
                 string[] choice = { "Đăng nhập", "Thoát" };
                 // short choose = Mainmenu("EBook Store", choice);
                 short choose = Utility.MenuTemplate("EBook Store", choice);
@@ -22,21 +22,29 @@ namespace PL_Console
                         MenuLogin();
                         continue;
                     case 2:
-                        Environment.Exit(0);
-                        break;
+                        
+                        string yOrN = Utility.OnlyYN("Bạn có thực sự muốn thoát?(Y/N): ");
+                        if (yOrN == "Y")
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
+                        continue;
+
                 }
             }
 
         }
         public void MenuLogin()
         {
-            Console.Clear();
-            UserBL userBL = new UserBL();     
+
+            UserBL userBL = new UserBL();
             string username = null;
             string password = null;
             string choice;
             while (true)
             {
+                Console.Clear();
                 User user = null;
                 string row1 = "=====================================================================";
                 string row2 = "---------------------------------------------------------------------";
@@ -47,7 +55,7 @@ namespace PL_Console
                 username = Console.ReadLine();
                 Console.Write("Mật khẩu: ");
                 password = Password();
-                Console.WriteLine();
+
                 if (ValidateLogin(username) == false || ValidateLogin(password) == false)
                 {
                     Console.WriteLine("Tên đăng nhập hoặc mật khẩu không được chứa kí tự đặc biệt");
@@ -63,15 +71,7 @@ namespace PL_Console
                             continue;
                     }
                 }
-                try
-                {
-                    user = userBL.GetUserByUserNameAndPassWord(username, password);
-                }
-                catch (System.Exception e)
-                {
-
-                    Console.WriteLine(e);
-                }
+                user = userBL.GetUserByUserNameAndPassWord(username, password);
 
                 if (user == null)
                 {

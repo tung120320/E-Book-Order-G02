@@ -53,7 +53,7 @@ namespace DAL.Test
             order.OrderItem = new Item();
 
 
-            order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderItem = itemDAL.GetAnItemById(9);
             order.OrderUser = userDAL.GetUserById(1);
 
 

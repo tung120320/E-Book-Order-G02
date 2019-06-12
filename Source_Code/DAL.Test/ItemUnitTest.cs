@@ -28,20 +28,6 @@ namespace DAL.Test
         {
             Assert.Null(itemDal.GetAnItemById(itemId));
         }
-       
-        // [Fact]
-        // public void GetAnItemById()
-        // {
-        //     Assert.NotNull(itemDal.GetAnItemById(1));
-        // }
-        // [Theory]
-        // [InlineData(0)]
-        // [InlineData(null)]
-        // public void GetAnItemById1(int? itemID)
-        // {
-        //     Assert.Null(itemDal.GetAnItemById(itemID));
-        // }
-
 
     }
 }

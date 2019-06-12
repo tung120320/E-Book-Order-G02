@@ -23,8 +23,5 @@ namespace Persistence.MODEL
         public Item OrderItem;
         public List<Item> ListItems;
 
-        
-
-
     }
 }

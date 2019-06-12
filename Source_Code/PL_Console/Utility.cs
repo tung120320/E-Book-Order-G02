@@ -110,7 +110,7 @@ namespace PL_Console
             Console.ReadKey();
 
         }
-        public static short showListItems(string title, string[] menuItems, List<Item> items, int currentpage)
+        public static short showListItems(string title, string[] menuItems, List<Item> items, int UserId)
 
         {
             Console.Clear();
@@ -118,17 +118,27 @@ namespace PL_Console
             short choice = -1;
             var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
 
+            OrderBl orderBL = new OrderBl();
 
             foreach (Item item in items)
             {
-                table.AddRow(item.ItemId, item.ItemName, FormatCurrency(item.ItemPrice), item.ItemAuthor, item.ItemCategory);
+                bool bought = false;
+                if (item.ItemId != orderBL.CheckItemPurchase(item.ItemId, UserId))
+                {
+                    bought = true;
+                }
+
+                table.AddRow(item.ItemId, item.ItemName, bought == true ? FormatCurrency(item.ItemPrice) : "Đã mua", item.ItemAuthor, item.ItemCategory);
 
             }
             table.Write();
+            if (items.Count <= 0)
+            {
+                Console.WriteLine("Không tìm thấy sách");
+            }
             ItemBl itemBL = new ItemBl();
-            
-            Console.WriteLine("Trang " + currentpage + " / " + itemBL.GetTotalPage());
-            Console.WriteLine();
+
+
             for (int i = 0; i < menuItems.Length; i++)
             {
                 Console.WriteLine((i + 1) + ". " + menuItems[i]);
@@ -258,13 +268,13 @@ namespace PL_Console
             catch (System.Exception)
             {
             }
-            if (ratingTitle.Length < 10)
+            if (ratingTitle.Length <= 0)
             {
                 do
                 {
                     try
                     {
-                        Console.WriteLine("#Tiêu đề phải ít nhất 10 kí tự: ");
+                        Console.WriteLine("Bạn nhập sai: ");
                         Console.Write("#Mời bạn nhập lại tiêu đề: ");
                         ratingTitle = Console.ReadLine();
                     }
@@ -272,8 +282,9 @@ namespace PL_Console
                     {
                         continue;
                     }
-                } while (ratingTitle.Length < 10);
+                } while (ratingTitle.Length <= 0);
             }
+
             try
             {
                 Console.Write("#Nhập nội dung: ");
@@ -283,13 +294,13 @@ namespace PL_Console
             {
 
             }
-            if (ratingContent.Length < 20)
+            if (ratingContent.Length <= 0)
             {
                 do
                 {
                     try
                     {
-                        Console.WriteLine("Nội dung phải ít nhất 20 kí tự: ");
+                        Console.WriteLine("Bạn nhập sai: ");
                         Console.Write("#Mời bạn nhập lại nội dung: ");
                         ratingContent = Console.ReadLine();
                     }
@@ -297,7 +308,7 @@ namespace PL_Console
                     {
 
                     }
-                } while (ratingContent.Length < 20);
+                } while (ratingContent.Length <= 0);
             }
 
             rating.RatingStars = ratingStars;
@@ -307,24 +318,7 @@ namespace PL_Console
             rating.RatingDate = DateTime.Now;
             return rating;
         }
-        //   public static void showListItems(string title, string[] menuItems, List<Item> items)
 
-        // {
-        //     Console.Clear();
-
-        //     var table = new ConsoleTable("Mã sách", "Tên sách", "Giá sách", "Tác giả", "Danh mục");
-
-
-        //     foreach (Item item in items)
-        //     {
-        //         table.AddRow(item.ItemId, item.ItemName, item.ItemPrice, item.ItemAuthor, item.ItemCategory);
-
-        //     }
-        //     table.Write();
-
-
-
-        // }
         public static string OnlyYN(string printcl)
         {
             string choice;

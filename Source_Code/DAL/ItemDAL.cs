@@ -16,7 +16,15 @@ namespace DAL
             DbHelper.OpenConnection();
             query = @"select * from items limit 10;";
             List<Item> items = new List<Item>();
-            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            try
+            {
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Không thể kết nối tới cơ sở dữ liệu");
+                return null;
+            }
             while (reader.Read())
             {
                 items.Add(GetItem(reader));
@@ -30,7 +38,15 @@ namespace DAL
         {
             query = @"select * from items;";
             List<Item> items = new List<Item>();
-            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            try
+            {
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Không thể kết nối tới cơ sở dữ liệu");
+                return null;
+            }
             while (reader.Read())
             {
                 items.Add(GetItem(reader));
@@ -44,7 +60,7 @@ namespace DAL
         {
 
             DbHelper.OpenConnection();
-            
+
             query = $@"select * from items limit {pageNo},{itemPerPAge}";
             List<Item> items = new List<Item>();
             reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());

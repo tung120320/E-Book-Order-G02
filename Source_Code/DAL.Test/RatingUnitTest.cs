@@ -13,10 +13,10 @@ namespace DAL.Test
         [Fact]
         public void RateItemTest()
         {
-            Rating rating = new Rating(1, 2, 3, "hay", "hay qua");
+            Rating rating = new Rating(9, 1, 3, "hay", "hay qua");
             Assert.True(ratingDAL.RateItem(rating));  
             MySqlCommand command = DbHelper.OpenConnection().CreateCommand();
-            command.CommandText = $"DELETE FROM ratings where itemId = {1} and userId = {2}";
+            command.CommandText = $"DELETE FROM ratings where itemId = {9} and userId = {2}";
             command.ExecuteNonQuery();         
         }
 
@@ -29,12 +29,12 @@ namespace DAL.Test
         [Fact]
         public void UpdateRateItemTest()
         {
-            Rating rating1 = new Rating(1, 1, 3, "hay", "hay qua");
+            Rating rating1 = new Rating(9, 1, 3, "hay", "hay qua");
             ratingDAL.RateItem(rating1);
-            Rating rating = new Rating(1, 1, 2, "khong hay", "sach doc chan qua");
+            Rating rating = new Rating(9, 1, 2, "khong hay", "sach doc chan qua");
             Assert.True(ratingDAL.UpdateRateItem(rating));
             MySqlCommand command = DbHelper.OpenConnection().CreateCommand();
-            command.CommandText = $"DELETE FROM ratings where itemId = {1} and userId = {1}";
+            command.CommandText = $"DELETE FROM ratings where itemId = {9} and userId = {1}";
             command.ExecuteNonQuery();
         }
         [Fact]

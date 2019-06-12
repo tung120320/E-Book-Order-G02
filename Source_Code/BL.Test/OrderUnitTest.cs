@@ -10,19 +10,20 @@ namespace DAL.Test
     public class OrderUnitTest
     {
         private MySqlDataReader reader;
-          private OrderBl orderBL = new OrderBl();
-          private OrderDAL orderDAL = new OrderDAL();
+        private OrderBl orderBL = new OrderBl();
+        private OrderDAL orderDAL = new OrderDAL();
         [Fact]
         public void CreateShoppingCartTest()
         {
-            UserDAL userDAL = new UserDAL();
+            UserBL userBL = new UserBL();
+            ItemBl itemBL = new ItemBl(); 
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 1;
-            order.OrderItem.ItemId = 2;
+            order.OrderItem = itemBL.GetAnItemById(2);
+            order.OrderUser = userBL.GetUserById(1);
 
 
             Assert.True(orderBL.CreateShoppingCart(order));
@@ -32,14 +33,15 @@ namespace DAL.Test
         [Fact]
         public void CreateShoppingCartTest1()
         {
-            UserDAL userDAL = new UserDAL();
+             UserBL userBL = new UserBL();
+            ItemBl itemBL = new ItemBl(); 
             Order order = new Order();
             order.OrderUser = new User();
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-            order.OrderUser.UserId = 0;
-            order.OrderItem.ItemId = 0;
+            order.OrderItem = itemBL.GetAnItemById(0);
+            order.OrderUser = userBL.GetUserById(0);
 
             Assert.False(orderBL.CreateShoppingCart(order));
         }
@@ -52,6 +54,7 @@ namespace DAL.Test
             Item item = new Item();
             order.OrderItem = new Item();
 
+            
 
             order.OrderUser.UserId = 1;
             order.OrderItem.ItemId = 4;
@@ -160,7 +163,7 @@ namespace DAL.Test
         [Fact]
         public void CreateOrderTest()
         {
-             UserDAL userDAL = new UserDAL();
+            UserDAL userDAL = new UserDAL();
             ItemDAL itemDAL = new ItemDAL();
             Order order = new Order();
             order.OrderUser = new User();
@@ -175,7 +178,7 @@ namespace DAL.Test
 
             orderBL.DeleteAllItemInShoppingCartByUserID(1);
 
-           
+
         }
 
         [Fact]
@@ -212,9 +215,9 @@ namespace DAL.Test
             order.OrderItem = new Item();
 
             order.OrderStatus = 0;
-             order.OrderItem = itemDAL.GetAnItemById(2);
+            order.OrderItem = itemDAL.GetAnItemById(2);
             order.OrderUser = userDAL.GetUserById(1);
-           
+
             orderBL.CreateShoppingCart(order);
             orderBL.CreateOrder(order);
 

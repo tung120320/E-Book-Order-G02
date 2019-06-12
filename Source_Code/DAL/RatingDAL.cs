@@ -79,13 +79,14 @@ namespace DAL
             List<Rating> listRatings = new List<Rating>();
             while (reader.Read())
             {
-                listRatings.Add(GetRating());
+                listRatings.Add(GetRating(reader));
             }
-
+          
             DbHelper.CloseConnection();
             return listRatings;
         }
-        private Rating GetRating()
+       
+        private Rating GetRating(MySqlDataReader reader)
         {
             Rating rating = new Rating();
             rating.ItemId = reader.GetInt32("itemId");

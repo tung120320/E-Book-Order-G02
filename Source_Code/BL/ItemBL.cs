@@ -19,8 +19,13 @@ namespace BL
 
             return itemDAL.GetListItems();
         }
+         public List<Item> SearchItemName()
+        {
+            return itemDAL.SearchItemName();
+        }
         public List<Item> SearchItemName(string itemName)
         {
+            
             itemName = itemName.ToLower();
             Console.WriteLine(itemName);
             List<Item> items = new List<Item>();

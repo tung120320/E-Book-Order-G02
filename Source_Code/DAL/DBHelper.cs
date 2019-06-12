@@ -7,8 +7,8 @@ namespace DAL
 
     public class DbHelper
     {
-        
-    private static MySqlConnection connection = null;
+
+        private static MySqlConnection connection = null;
         public static MySqlConnection OpenConnection()
         {
             try
@@ -56,13 +56,14 @@ namespace DAL
         public static MySqlDataReader ExecQuery(string query, MySqlConnection connection)
         {
             MySqlCommand command = new MySqlCommand(query, connection);
+           
             return command.ExecuteReader();
         }
-        public static int ExecNonQuery(string query,  MySqlConnection connection)
+        public static int ExecNonQuery(string query, MySqlConnection connection)
         {
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = query;
-           
+
             return command.ExecuteNonQuery();
         }
         public static bool ExecTransaction(List<string> queries)

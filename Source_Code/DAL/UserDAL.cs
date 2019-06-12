@@ -7,11 +7,11 @@ namespace DAL
 
     public class UserDAL
     {
-        
+
         private MySqlDataReader reader;
         private string query;
 
-        public UserDAL(){}
+        public UserDAL() { }
 
         public User GetUserByUserNameAndPassWord(string username, string password)
         {
@@ -25,11 +25,19 @@ namespace DAL
             MatchCollection matchCollectionPassword = regex.Matches(password);
             if (matchCollectionUserName.Count < username.Length || matchCollectionPassword.Count < password.Length)
             {
-                
+
                 return null;
             }
             query = $@"select * from Users where userAccount = '{username}' and userPassword = '{password}'";
-            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            try
+            {
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Không thể kết nối tới cơ sở dữ liệu");
+                return null;
+            }
             User user = null;
             if (reader.Read())
             {
@@ -46,7 +54,7 @@ namespace DAL
                 return null;
             }
             query = $@"select * from  Users  where userId = {userId};";
-            reader = DbHelper.ExecQuery(query,DbHelper.OpenConnection());
+            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
             User user = null;
 
             if (reader.Read())
@@ -59,7 +67,7 @@ namespace DAL
         }
         public bool UpdateStatusShoppingCartById(bool isHave, int? userId)
         {
-           
+
             if (userId == null)
             {
                 return false;
@@ -73,7 +81,7 @@ namespace DAL
                     query = $@"update Users set userShoppingCart = true where userId = {userId}";
                     break;
             }
-           
+
             DbHelper.ExecNonQuery(query, DbHelper.OpenConnection());
             DbHelper.CloseConnection();
             return true;

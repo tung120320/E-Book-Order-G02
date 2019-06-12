@@ -205,7 +205,15 @@ namespace DAL
             query = $@"select it.itemId, it.itemName, it.itemPrice from 
             orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId where ord.orderUser = {userId} and ord.orderStatus = 0 ;";
-            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            try
+            {
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Không thể kết nối tới cơ sở dữ liệu");
+                return null;
+            }
             while (reader.Read())
             {
                 listItems.Add(GetItemShoppingCart(reader));
@@ -284,7 +292,15 @@ namespace DAL
             orders ord inner join orderDetails ordt on ord.orderId = ordt.orderId 
             inner join Items it on ordt.itemId = it.itemId
             where ord.orderUser = {userId} and ord.orderStatus = 1 group by it.itemName";
-            reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            try
+            {
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Không thể kết nối tới cơ sở dữ liệu");
+                return null;
+            }
             while (reader.Read())
             {
                 listOrders.Add(GetOrder(reader));
@@ -356,7 +372,6 @@ namespace DAL
             if (reader.Read())
             {
                 itemId = reader.GetInt32("itemid");
-
             }
             else
             {
@@ -390,7 +405,7 @@ namespace DAL
             order.OrderId = reader.GetInt32("orderId");
             order.OrderUser.Username = reader.GetString("userName");
             order.OrderUser.UserEmail = reader.GetString("userEmail");
-            
+
             order.OrderItem.ItemId = reader.GetInt32("itemId");
             order.OrderItem.ItemPrice = reader.GetDouble("itemPrice");
             order.OrderDate = reader.GetDateTime("orderDate");
