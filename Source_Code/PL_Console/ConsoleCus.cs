@@ -51,7 +51,7 @@ namespace PL_Console
 
             string[] listcol = { "Tên tài khoản", "Tên khách hàng", "Email", "CMND", "Số dư" };
 
-            Utility.InfoCustomer("Thông tin khách hàng", listcol, us);
+            Utility.InfoCustomer("Thông tin tài khoản", listcol, us);
 
         }
         public void ShowlistItems()
@@ -189,12 +189,9 @@ namespace PL_Console
                     rateStar /= ratings.Count;
                 }
 
-
-
                 var table = new ConsoleTable("Tên", Convert.ToString(item.ItemName));
                 table.AddRow("Giá:", FormatCurrency(item.ItemPrice));
                 table.AddRow("Tác giả:", item.ItemAuthor);
-                Console.WriteLine(ShowStar(rateStar));
                 table.AddRow("Đánh giá:", ShowStar(rateStar) == " " ? "Chưa có đánh giá" : ShowStar(rateStar));
                 table.AddRow("Danh mục:", item.ItemCategory);
                 table.AddRow("ISBN:", item.ItemISBN);
@@ -257,26 +254,46 @@ namespace PL_Console
             Console.Clear();
             RatingBL ratingBL = new RatingBL();
             Rating rating = new Rating();
-            rating = Utility.MenuRating(user.UserId, item.ItemId);
 
-            if (ratingBL.RateItem(rating))
+            if (ratingBL.CheckItemRatedByUserId(user.UserId, item.ItemId) != null)
             {
-                Console.WriteLine("Đánh giá thành công");
-                ShowAllRating(item);
+                string yorN = Utility.OnlyYN("Bạn đánh giá rồi. Bạn có muốn cập nhập? (Y/N):");
+                switch (yorN)
+                {
+                    case "Y":
+                        rating = Utility.MenuRating(user.UserId, item.ItemId);
+                        if (ratingBL.UpdateRateItem(rating))
+                        {
+                            Console.WriteLine("Cập nhập đánh giá thành công");
+                            Console.WriteLine("Nhấn phím bất kì để tiếp tục");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Cập nhập đánh giá không thành công");
+                        }
+                        ShowAllRating(item);
+                        break;
+                    case "N":
+                        break;
+                }
+
             }
             else
             {
-                if (ratingBL.UpdateRateItem(rating))
+                rating = Utility.MenuRating(user.UserId, item.ItemId);
+                if (ratingBL.RateItem(rating))
                 {
-                    Console.WriteLine("Cập nhập đánh giá thành công");
+                    Console.WriteLine("Đánh giá thành công");
+                    ShowAllRating(item);
                 }
                 else
                 {
-                    Console.WriteLine("Cập nhập đánh giá không thành công");
+                    Console.WriteLine("Đánh giá thất bại");
                 }
-                Console.WriteLine("Nhấn phím bất kì để tiếp tục");
-                Console.ReadKey();
             }
+
+
         }
         public void ShowAllRating(Item item)
         {
@@ -439,7 +456,7 @@ namespace PL_Console
                                 Console.ReadKey();
                                 continue;
                             }
-                            
+
                             bool y = false;
                             foreach (var item in shoppingCart)
                             {
@@ -488,7 +505,7 @@ namespace PL_Console
                     if (orderBL.CreateOrder(order, total))
                     {
                         Console.Clear();
-                        Console.WriteLine("Mua hàng thành công");
+                        // Console.WriteLine("Mua hàng thành công");
                         userBL.UpdateStatusShoppingCartById(true, user.UserId); // set userShopping cart to 0
 
                         List<Order> shoppingCart = new List<Order>();

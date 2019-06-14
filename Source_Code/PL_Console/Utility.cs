@@ -94,17 +94,22 @@ namespace PL_Console
             Console.Clear();
             Console.WriteLine(row1);
             Console.WriteLine(title);
-            Console.WriteLine(row2);
+            // Console.WriteLine(row2);
 
             string[] infoUser = { us.UserAccount, us.Username, us.UserEmail, us.UserIdCardNo.ToString(), FormatCurrency(us.UserBalance) };
 
-            for (int i = 0; i < menuItems.Length; i++)
-            {
+            // for (int i = 0; i < menuItems.Length; i++)
+            // {
+            //     Console.WriteLine(menuItems[i] + ": " + infoUser[i]);
+            // }
+            var table = new ConsoleTable("Tên tài khoản", us.UserAccount);
+            table.AddRow("Tên khách hàng", us.Username);
+            table.AddRow("Email", us.UserEmail);
 
-                Console.WriteLine(menuItems[i] + ": " + infoUser[i]);
+            table.AddRow("CMND", us.UserIdCardNo.ToString());
+            table.AddRow("Số dư", FormatCurrency(us.UserBalance));
 
-
-            }
+            table.Write();
             Console.WriteLine(row1);
             Console.Write("Nhấn phím bất kì để quay lại ");
             Console.ReadKey();
@@ -274,7 +279,7 @@ namespace PL_Console
                 {
                     try
                     {
-                        Console.WriteLine("Bạn nhập sai: ");
+                        Console.WriteLine("Bạn nhập sai");
                         Console.Write("#Mời bạn nhập lại tiêu đề: ");
                         ratingTitle = Console.ReadLine();
                     }
@@ -300,7 +305,7 @@ namespace PL_Console
                 {
                     try
                     {
-                        Console.WriteLine("Bạn nhập sai: ");
+                        Console.WriteLine("Bạn nhập sai");
                         Console.Write("#Mời bạn nhập lại nội dung: ");
                         ratingContent = Console.ReadLine();
                     }

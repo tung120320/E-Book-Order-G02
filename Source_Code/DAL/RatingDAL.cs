@@ -81,11 +81,38 @@ namespace DAL
             {
                 listRatings.Add(GetRating(reader));
             }
-          
+
             DbHelper.CloseConnection();
             return listRatings;
         }
-       
+        public Rating CheckItemRatedByUserId(int? userId, int? itemId)
+        {
+            if (userId == null)
+            {
+                return null;
+            }
+
+            query = $@"SELECT * FROM ratings where userId ={userId} and itemId = {itemId};";
+
+            try
+            {
+                reader = DbHelper.ExecQuery(query, DbHelper.OpenConnection());
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("Không thể kết nối tới cơ sở dữ liệu");
+                return null;
+            }
+            Rating rating = null;
+            if (reader.Read())
+            {
+                rating = GetRating(reader);
+            }
+            reader.Close();
+            DbHelper.CloseConnection();
+
+            return rating;
+        }
         private Rating GetRating(MySqlDataReader reader)
         {
             Rating rating = new Rating();

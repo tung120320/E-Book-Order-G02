@@ -13,15 +13,21 @@ namespace BL
             ratingDAL = new RatingDAL();
         }
 
-        public bool RateItem(Rating rating){
+        public bool RateItem(Rating rating)
+        {
             return ratingDAL.RateItem(rating);
         }
-        public bool UpdateRateItem(Rating rating){
+        public bool UpdateRateItem(Rating rating)
+        {
             return ratingDAL.UpdateRateItem(rating);
         }
-        public List<Rating> GetAllRating(int? itemId){
+        public Rating CheckItemRatedByUserId(int? userId, int? itemId){
+            return ratingDAL.CheckItemRatedByUserId(userId, itemId);
+        }
+        public List<Rating> GetAllRating(int? itemId)
+        {
             return ratingDAL.GetAllRating(itemId);
         }
-       
+
     }
 }
